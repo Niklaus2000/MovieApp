@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cnb_unselectedColor="#000000"
+    >
+
+
+    <item
+        android:id="@+id/movies"
+        android:icon="@drawable/ic_baseline_local_movies_24"
+        android:title="Movies"
+        app:cnb_iconColor="@color/orange"/>
+    <item
+        android:id="@+id/tv"
+        android:icon="@drawable/ic_baseline_tv_24"
+        android:title="TV"
+        app:cnb_iconColor="@color/orange"
+        />
+    <item
+        android:id="@+id/profile"
+        android:title="Profile"
+        android:icon="@drawable/ic_baseline_person_24"
+        app:cnb_iconColor="@color/orange"
+       />
+
+
+</menu>
