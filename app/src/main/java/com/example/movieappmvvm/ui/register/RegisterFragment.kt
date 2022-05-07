@@ -1,19 +1,14 @@
-package com.example.movieappmvvm.ui.Fragments
+package com.example.movieappmvvm.ui.register
 
 import android.content.Context
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.movieappmvvm.Model.AuthenticationRepository
 import com.example.movieappmvvm.R
-import com.example.movieappmvvm.RegisterViewModelFactory
-import com.example.movieappmvvm.ViewModel.RegisterViewModel
 import com.example.movieappmvvm.databinding.FragmentRegisterBinding
 import com.example.movieappmvvm.ui.base.BaseFragmentBinding
-import com.google.firebase.auth.FirebaseUser
 
 //import org.koin.androidx.viewmodel.ext.android.viewModel
 

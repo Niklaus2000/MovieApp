@@ -1,4 +1,4 @@
-package com.example.movieappmvvm.ui.Fragments
+package com.example.movieappmvvm.ui.entryPage
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -1,4 +1,4 @@
-package com.example.movieappmvvm.ui.Fragments
+package com.example.movieappmvvm.ui.home
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.movieappmvvm.R
 import com.example.movieappmvvm.databinding.FragmentHomeBinding
-import com.example.movieappmvvm.databinding.FragmentProfileBinding
+import com.example.movieappmvvm.ui.movies.MoviesFragment
+import com.example.movieappmvvm.ui.profile.ProfileFragment
+import com.example.movieappmvvm.ui.tv.TvFragment
 
 
 class HomeFragment : Fragment() {

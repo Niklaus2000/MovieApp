@@ -1,4 +1,4 @@
-package com.example.movieappmvvm.ViewModel
+package com.example.movieappmvvm.ui.splash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

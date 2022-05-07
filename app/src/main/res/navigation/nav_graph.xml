@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/splashScreenFragment"
-        android:name="com.example.movieappmvvm.ui.Fragments.SplashScreenFragment"
+        android:name="com.example.movieappmvvm.ui.splash.SplashScreenFragment"
         android:label="splash_screen_fragment"
         tools:layout="@layout/splash_screen_fragment" >
         <action
@@ -18,7 +18,7 @@
     </fragment>
     <fragment
         android:id="@+id/entryPageFragment"
-        android:name="com.example.movieappmvvm.ui.Fragments.EntryPageFragment"
+        android:name="com.example.movieappmvvm.ui.entryPage.EntryPageFragment"
         android:label="fragment_entry_page"
         tools:layout="@layout/fragment_entry_page" >
         <action
@@ -39,7 +39,7 @@
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.example.movieappmvvm.ui.Fragments.RegisterFragment"
+        android:name="com.example.movieappmvvm.ui.register.RegisterFragment"
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" >
         <action
@@ -51,7 +51,7 @@
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.movieappmvvm.ui.Fragments.HomeFragment"
+        android:name="com.example.movieappmvvm.ui.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
 </navigation>

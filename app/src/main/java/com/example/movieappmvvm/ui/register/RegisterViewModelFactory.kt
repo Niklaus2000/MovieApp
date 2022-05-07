@@ -1,9 +1,8 @@
-package com.example.movieappmvvm
+package com.example.movieappmvvm.ui.register
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.movieappmvvm.Model.AuthenticationRepository
-import com.example.movieappmvvm.ViewModel.RegisterViewModel
 
 @Suppress("UNCHECKED_CAST")
 class RegisterViewModelFactory(private val authRepo: AuthenticationRepository): ViewModelProvider.Factory {
