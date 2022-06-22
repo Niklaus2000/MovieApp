@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
@@ -11,12 +12,13 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
-import com.example.movieappmvvm.Model.OnBoardingItem
 import com.example.movieappmvvm.R
+import com.example.movieappmvvm.data.onboardingitem.OnBoardingItem
 import com.example.movieappmvvm.databinding.FragmentEntryPageBinding
 import com.example.movieappmvvm.ui.Adapter.OnBoardingItemsAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class EntryPageFragment : Fragment() {
     private var _binding: FragmentEntryPageBinding? = null
     private val binding get() = _binding!!
@@ -34,7 +36,7 @@ class EntryPageFragment : Fragment() {
         inflater: LayoutInflater , container: ViewGroup? ,
         savedInstanceState: Bundle? ,
     ): View {
-        _binding = FragmentEntryPageBinding.inflate(inflater , container , false)
+         _binding = FragmentEntryPageBinding.inflate(inflater , container , false)
         return binding.root
 
     }
@@ -50,7 +52,6 @@ class EntryPageFragment : Fragment() {
             listOf(
                 OnBoardingItem(
                     onBoardingImage = R.drawable.bitmap,
-//                    title = "sdafs",
                     description = "Get the first \n" +
                             "Movie &TV information"
                 ) ,
@@ -58,7 +59,7 @@ class EntryPageFragment : Fragment() {
                     onBoardingImage = R.drawable.bitmap,
                     description = "Know the movie \n" +
                             "is not worth Watching"
-                ), OnBoardingItem(
+                ) , OnBoardingItem(
                     onBoardingImage = R.drawable.bitmap,
                     description = "Real-time \n" +
                             "updates movie Trailer"
@@ -87,6 +88,9 @@ class EntryPageFragment : Fragment() {
             navigateToLoginAndRegister()
         }
         binding.buttonGetStarted.setOnClickListener {
+            val bounceAnimation = AnimationUtils.loadAnimation(requireContext(), R.anim.bounce_anim_button)
+            view?.startAnimation(bounceAnimation)
+
             navigateToLoginAndRegister()
         }
     }

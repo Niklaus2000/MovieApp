@@ -3,7 +3,7 @@ package com.example.movieappmvvm.ui.Adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.movieappmvvm.Model.OnBoardingItem
+import com.example.movieappmvvm.data.onboardingitem.OnBoardingItem
 import com.example.movieappmvvm.databinding.OnboardingItemContainerBinding
 
 class OnBoardingItemsAdapter(private var onBoardingList: List<OnBoardingItem>) :

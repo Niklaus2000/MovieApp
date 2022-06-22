@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.login.LoginFragment"
+    tools:context=".ui.loginAndRegister.LoginFragment"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/black"
     >
@@ -88,7 +88,8 @@
                 android:paddingStart="6dp"
                 android:paddingEnd="6dp">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <EditText
+                    android:id="@+id/emailEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/ic_email"
@@ -108,7 +109,8 @@
                 android:paddingEnd="6dp"
                 app:passwordToggleEnabled="true">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <EditText
+                    android:id="@+id/passwordEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/ic_lock"

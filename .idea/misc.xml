@@ -3,6 +3,32 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Nika/AndroidStudioProjects/MovieApp/app/src/main/res/drawable/card_gradient_black.xml" value="0.2555" />
+        <entry key="..\:/Users/Nika/AndroidStudioProjects/MovieApp/app/src/main/res/drawable/ic_baseline_bookmarks_24.xml" value="0.234" />
+        <entry key="..\:/Users/Nika/AndroidStudioProjects/MovieApp/app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.234" />
+        <entry key="..\:/Users/Nika/AndroidStudioProjects/MovieApp/app/src/main/res/drawable/ic_baseline_star_24.xml" value="0.234" />
+        <entry key="..\:/Users/Nika/AndroidStudioProjects/MovieApp/app/src/main/res/drawable/ic_movie_blue.xml" value="0.234" />
+        <entry key="..\:/Users/Nika/AndroidStudioProjects/MovieApp/app/src/main/res/drawable/ic_movie_blue_wide.xml" value="0.234" />
+        <entry key="..\:/Users/Nika/AndroidStudioProjects/MovieApp/app/src/main/res/drawable/ic_movie_green.xml" value="0.234" />
+        <entry key="..\:/Users/Nika/AndroidStudioProjects/MovieApp/app/src/main/res/drawable/ic_movie_green_wide.xml" value="0.234" />
+        <entry key="..\:/Users/Nika/AndroidStudioProjects/MovieApp/app/src/main/res/drawable/ic_movie_red.xml" value="0.234" />
+        <entry key="..\:/Users/Nika/AndroidStudioProjects/MovieApp/app/src/main/res/drawable/ic_movie_red_wide.xml" value="0.234" />
+        <entry key="..\:/Users/Nika/AndroidStudioProjects/MovieApp/app/src/main/res/drawable/ic_movie_yellow.xml" value="0.234" />
+        <entry key="..\:/Users/Nika/AndroidStudioProjects/MovieApp/app/src/main/res/drawable/ic_movie_yellow_wide.xml" value="0.234" />
+        <entry key="..\:/Users/Nika/AndroidStudioProjects/MovieApp/app/src/main/res/drawable/ic_person_blue.xml" value="0.234" />
+        <entry key="..\:/Users/Nika/AndroidStudioProjects/MovieApp/app/src/main/res/drawable/ic_person_green.xml" value="0.234" />
+        <entry key="..\:/Users/Nika/AndroidStudioProjects/MovieApp/app/src/main/res/drawable/ic_person_red.xml" value="0.234" />
+        <entry key="..\:/Users/Nika/AndroidStudioProjects/MovieApp/app/src/main/res/drawable/ic_person_yellow.xml" value="0.234" />
+        <entry key="..\:/Users/Nika/AndroidStudioProjects/MovieApp/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/Nika/AndroidStudioProjects/MovieApp/app/src/main/res/layout/fragment_entry_page.xml" value="0.10989583333333333" />
+        <entry key="..\:/Users/Nika/AndroidStudioProjects/MovieApp/app/src/main/res/layout/fragment_home.xml" value="0.10989583333333333" />
+        <entry key="..\:/Users/Nika/AndroidStudioProjects/MovieApp/app/src/main/res/layout/fragment_home_view_pager.xml" value="0.25" />
+        <entry key="..\:/Users/Nika/AndroidStudioProjects/MovieApp/app/src/main/res/layout/fragment_login.xml" value="0.25" />
+        <entry key="..\:/Users/Nika/AndroidStudioProjects/MovieApp/app/src/main/res/layout/fragment_movies.xml" value="0.2" />
+        <entry key="..\:/Users/Nika/AndroidStudioProjects/MovieApp/app/src/main/res/layout/fragment_profile.xml" value="0.25" />
+        <entry key="..\:/Users/Nika/AndroidStudioProjects/MovieApp/app/src/main/res/layout/fragment_register.xml" value="0.25" />
+        <entry key="..\:/Users/Nika/AndroidStudioProjects/MovieApp/app/src/main/res/layout/item_movie_home.xml" value="0.25" />
+        <entry key="..\:/Users/Nika/AndroidStudioProjects/MovieApp/app/src/main/res/layout/splash_screen_fragment.xml" value="0.1" />
         <entry key="..\:/Users/Nika/AndroidStudioProjects/MovieAppMVVM/app/src/main/res/drawable/btn_top.xml" value="0.1625" />
         <entry key="..\:/Users/Nika/AndroidStudioProjects/MovieAppMVVM/app/src/main/res/drawable/getstarted_btn_bg.xml" value="0.1625" />
         <entry key="..\:/Users/Nika/AndroidStudioProjects/MovieAppMVVM/app/src/main/res/drawable/gradient_background.xml" value="0.1" />

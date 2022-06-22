@@ -27,7 +27,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.movieappmvvm.ui.login.LoginFragment"
+        android:name="com.example.movieappmvvm.ui.loginAndRegister.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login">
         <action
@@ -39,7 +39,7 @@
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.example.movieappmvvm.ui.register.RegisterFragment"
+        android:name="com.example.movieappmvvm.ui.loginAndRegister.RegisterFragment"
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" >
         <action

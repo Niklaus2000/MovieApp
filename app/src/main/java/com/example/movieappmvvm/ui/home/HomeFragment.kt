@@ -10,8 +10,9 @@ import com.example.movieappmvvm.databinding.FragmentHomeBinding
 import com.example.movieappmvvm.ui.movies.MoviesFragment
 import com.example.movieappmvvm.ui.profile.ProfileFragment
 import com.example.movieappmvvm.ui.tv.TvFragment
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null

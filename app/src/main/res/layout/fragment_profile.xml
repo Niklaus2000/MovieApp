@@ -145,10 +145,10 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/nameEditTextFirebase"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nika Gogichashvili"
+        android:hint="Nika Gogichashvili"
         android:textSize="20sp"
         android:layout_marginTop="40dp"
         app:layout_constraintEnd_toEndOf="parent"

@@ -6,25 +6,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.movieappmvvm.databinding.FragmentProfileBinding
+import com.example.movieappmvvm.databinding.FragmentRegisterBinding
+import com.example.movieappmvvm.ui.base.BaseFragmentBinding
+import com.google.firebase.auth.FirebaseAuth
 
 
-class ProfileFragment : Fragment() {
+class ProfileFragment :  BaseFragmentBinding<FragmentProfileBinding>(FragmentProfileBinding::inflate) {
+    private lateinit var user: FirebaseAuth
 
-    private var _binding: FragmentProfileBinding? = null
-    private val binding get() = _binding!!
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun start() {
+       // saveNameFirebase()
+     //   saveNameFirebase()
 
     }
-
-    override fun onCreateView(
-        inflater: LayoutInflater , container: ViewGroup? ,
-        savedInstanceState: Bundle? ,
-    ): View {
-        _binding = FragmentProfileBinding.inflate(inflater , container , false)
-        return binding.root
-    }
-
-
+//    private fun saveNameFirebase() {
+//        user = FirebaseAuth.getInstance()
+//        if(user.currentUser != null) {
+//            user.currentUser?.let {
+//                binding.nameEditTextFirebase.text = it.
+//            }
+//        }
+//    }
 }
