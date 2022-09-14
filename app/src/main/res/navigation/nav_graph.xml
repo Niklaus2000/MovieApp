@@ -9,13 +9,7 @@
         android:id="@+id/splashScreenFragment"
         android:name="com.example.movieappmvvm.ui.splash.SplashScreenFragment"
         android:label="splash_screen_fragment"
-        tools:layout="@layout/splash_screen_fragment" >
-        <action
-            app:popUpTo="@id/splashScreenFragment"
-            app:popUpToInclusive="true"
-            android:id="@+id/action_splashScreenFragment_to_entryPageFragment"
-            app:destination="@id/entryPageFragment" />
-    </fragment>
+        tools:layout="@layout/splash_screen_fragment" />
     <fragment
         android:id="@+id/entryPageFragment"
         android:name="com.example.movieappmvvm.ui.entryPage.EntryPageFragment"
@@ -53,5 +47,36 @@
         android:id="@+id/homeFragment"
         android:name="com.example.movieappmvvm.ui.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home"
+
+        >
+        <argument android:name="view" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/moviesFragment"
+        android:name="com.example.movieappmvvm.ui.movies.MoviesFragment"
+        android:label="fragment_movies"
+        tools:layout="@layout/fragment_movies" />
+    <fragment
+        android:id="@+id/viewAllFragment"
+        android:name="com.example.movieappmvvm.ui.movies.moviesAllFragment.ViewAllFragment"
+        android:label="fragment_view_all"
+        tools:layout="@layout/fragment_view_all" />
+    <fragment
+        android:id="@+id/movieDetailsFragment"
+        android:name="com.example.movieappmvvm.ui.movies.moviedetailsFragment.MovieDetailsFragment"
+        android:label="fragment_movie_details"
+        tools:layout="@layout/fragment_movie_details" />
+    <fragment
+        android:id="@+id/actorDetailsFragment"
+        android:name="com.example.movieappmvvm.ui.movies.actorsDetailsFragment.ActorDetailsFragment"
+        android:label="fragment_actors_details"
+        tools:layout="@layout/fragment_actor_details" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.movieappmvvm.ui.movies.search.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" />
+
 </navigation>

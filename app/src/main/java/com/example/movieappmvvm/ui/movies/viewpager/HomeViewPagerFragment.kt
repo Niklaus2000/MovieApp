@@ -1,7 +1,9 @@
 package com.example.movieappmvvm.ui.movies.viewpager
 
 import androidx.core.os.bundleOf
+import androidx.navigation.findNavController
 import coil.load
+import com.example.movieappmvvm.R
 import com.example.movieappmvvm.data.model.Movie
 import com.example.movieappmvvm.databinding.FragmentHomeViewPagerBinding
 import com.example.movieappmvvm.ui.base.BaseFragmentBinding
@@ -24,7 +26,7 @@ class HomeViewPagerFragment(val movie: Movie) : BaseFragmentBinding<FragmentHome
 
         binding.root.setOnClickListener {
             val bundle = bundleOf(CONSTANTS.movie to movie)
-            //it.findNavController().navigate(R.id.action_homeFragment_to_movieDetailsFragment, bundle)
+            it.findNavController().navigate(R.id.movieDetailsFragment, bundle)
         }
 
     }

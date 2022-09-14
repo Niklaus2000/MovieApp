@@ -15,5 +15,12 @@
     <string name="popular">Popular</string>
     <string name="top_rated">Top Rated</string>
     <string name="movie_image">Movie Image</string>
+    <string name="description">Description</string>
+    <string name="genres">Genres</string>
+    <string name="cast">Cast</string>
+    <string name="actor_name">Actor Name</string>
+    <string name="bio">Bio</string>
+    <string name="birthday">Birthday</string>
+    <string name="known_for">Known for</string>
 
 </resources>

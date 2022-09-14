@@ -1,15 +1,14 @@
 package com.example.movieappmvvm.ui.home
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.example.movieappmvvm.R
 import com.example.movieappmvvm.databinding.FragmentHomeBinding
 import com.example.movieappmvvm.ui.movies.MoviesFragment
 import com.example.movieappmvvm.ui.profile.ProfileFragment
-import com.example.movieappmvvm.ui.tv.TvFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,10 +19,7 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater , container: ViewGroup? ,
@@ -51,11 +47,6 @@ class HomeFragment : Fragment() {
                 R.id.movies -> {
                     openMainFragment()
                 }
-                R.id.tv -> {
-                    val tvFragment = TvFragment()
-                    parentFragmentManager.beginTransaction()
-                        .replace(R.id.frame_layout, tvFragment).commit()
-                }
                 R.id.profile -> {
                     val profileFragment = ProfileFragment()
                     parentFragmentManager.beginTransaction()
@@ -70,6 +61,4 @@ class HomeFragment : Fragment() {
         transaction.replace(R.id.frame_layout, fragment)
         transaction.commit()
     }
-
-
 }

@@ -25,12 +25,7 @@ class EntryPageFragment : Fragment() {
     private lateinit var onBoardingItemsAdapter: OnBoardingItemsAdapter
 //    private lateinit var indicatorsContainer: LinearLayout
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
-
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater , container: ViewGroup? ,

@@ -29,4 +29,4 @@ data class Cast (
     val backdrop_path: String,
     val overview: String,
     val poster_path: String
-) : Parcelable
+): Parcelable

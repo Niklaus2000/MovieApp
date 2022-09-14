@@ -1,21 +1,12 @@
 package com.example.movieappmvvm.ui.movies
 
-import android.content.ContentValues
-import android.util.Log
-import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
-import androidx.lifecycle.viewModelScope
-import com.example.movieappmvvm.data.model.Movie
 import com.example.movieappmvvm.data.model.Resource
 import com.example.movieappmvvm.data.repository.NetworkRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import retrofit2.HttpException
 import java.net.SocketTimeoutException
 import javax.inject.Inject
 
@@ -76,6 +67,4 @@ class MoviesViewModel @Inject constructor(private val repository : NetworkReposi
                 emit(Resource.error("Something went wrong!"))
         }
     }
-
-
 }

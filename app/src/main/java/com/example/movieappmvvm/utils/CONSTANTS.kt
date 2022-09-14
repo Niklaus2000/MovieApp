@@ -1,7 +1,6 @@
 package com.example.movieappmvvm.utils
 
 import com.example.movieappmvvm.R
-import java.util.HashMap
 
 class CONSTANTS {
 
@@ -14,8 +13,7 @@ class CONSTANTS {
         const val API_KEY = "a6ea6249484a13e9812c3f315028feb0"
         const val BaseURL = "https://api.themoviedb.org/3/"
         const val ImageBaseURL = "https://image.tmdb.org/t/p/original"
-        val ImageBaseURLw780 = "https://image.tmdb.org/t/p/w780"
-        val ImageBaseURLw500 = "https://image.tmdb.org/t/p/w500"
+
 
         val viewAll = "view"
         val Popular = "Popular"

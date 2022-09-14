@@ -7,18 +7,15 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.example.movieappmvvm.R
 import com.example.movieappmvvm.data.model.Movie
 import com.example.movieappmvvm.databinding.ItemMovieHomeBinding
 import com.example.movieappmvvm.utils.CONSTANTS
-import coil.load
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
-class HomeRecyclerViewAdapter(
-    val context : Context ,
-    val movies : ArrayList<Movie>
-) : RecyclerView.Adapter<HomeRecyclerViewAdapter.ViewHolder>() {
+class HomeRecyclerViewAdapter(val context : Context , val movies : ArrayList<Movie>) : RecyclerView.Adapter<HomeRecyclerViewAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val binding = ItemMovieHomeBinding.bind(itemView)
@@ -33,13 +30,17 @@ class HomeRecyclerViewAdapter(
 
         with(holder) {
 
-            if (position == 0) {
-                binding.spacingStart.visibility = View.VISIBLE
-            } else if (position == movies.size - 1) {
-                binding.spacingEnd.visibility = View.VISIBLE
-            } else {
-                binding.spacingEnd.visibility = View.GONE
-                binding.spacingStart.visibility = View.GONE
+            when (position) {
+                0 -> {
+                    binding.spacingStart.visibility = View.VISIBLE
+                }
+                movies.size - 1 -> {
+                    binding.spacingEnd.visibility = View.VISIBLE
+                }
+                else -> {
+                    binding.spacingEnd.visibility = View.GONE
+                    binding.spacingStart.visibility = View.GONE
+                }
             }
 
             binding.movieImage.load(CONSTANTS.ImageBaseURL + movies[position].poster_path) {
@@ -49,11 +50,10 @@ class HomeRecyclerViewAdapter(
             binding.textMovieName.text = movies[position].title
             binding.textMovieRating.text = movies[position].vote_average.toString()
 
-//            itemView.setOnClickListener {
-//                val bundle = bundleOf(CONSTANTS.movie to movies[position])
-//                it.findNavController()
-//                    .navigate(R.id.action_homeFragment_to_movieDetailsFragment , bundle)
-//            }
+            itemView.setOnClickListener {
+                val bundle = bundleOf(CONSTANTS.movie to movies[position])
+                it.findNavController().navigate(R.id.movieDetailsFragment , bundle)
+            }
 
             if (position == movies.size - 1) {
                 binding.spacingEnd.visibility = View.VISIBLE
@@ -66,3 +66,6 @@ class HomeRecyclerViewAdapter(
 
 
 }
+
+
+

@@ -1,16 +1,17 @@
 package com.example.movieappmvvm.data.repository
 
-import com.example.movieappmvvm.data.api.NetworkService
-import com.example.movieappmvvm.data.api.SafeApiRequest
-import com.example.movieappmvvm.utils.CONSTANTS
-import javax.inject.Inject
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.liveData
+import com.example.movieappmvvm.data.api.NetworkService
+import com.example.movieappmvvm.data.api.SafeApiRequest
 import com.example.movieappmvvm.ui.paging.PopularPagingSource
 import com.example.movieappmvvm.ui.paging.SearchPagingSource
 import com.example.movieappmvvm.ui.paging.TopRatedPagingSource
 import com.example.movieappmvvm.ui.paging.UpcomingPagingSource
+import com.example.movieappmvvm.utils.CONSTANTS
+import javax.inject.Inject
+
 class NetworkRepository @Inject constructor(
     private val networkApi: NetworkService
 ) : SafeApiRequest() {

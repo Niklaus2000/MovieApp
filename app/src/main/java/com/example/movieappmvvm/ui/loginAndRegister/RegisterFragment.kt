@@ -9,13 +9,14 @@ import com.example.movieappmvvm.R
 import com.example.movieappmvvm.databinding.FragmentRegisterBinding
 import com.example.movieappmvvm.ui.base.BaseFragmentBinding
 import com.example.movieappmvvm.ui.loginAndRegister.viewModel.RegisterViewModel
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class RegisterFragment : BaseFragmentBinding<FragmentRegisterBinding>(FragmentRegisterBinding::inflate) {
 
     private val viewModel: RegisterViewModel by viewModels()
-
+    private lateinit var firebaseAuth: FirebaseAuth
 
     override fun start() {
 
@@ -48,18 +49,21 @@ class RegisterFragment : BaseFragmentBinding<FragmentRegisterBinding>(FragmentRe
     }
 
     private fun registerUsers() {
-        val email = binding.emailEditText.text.toString()
-        val password = binding.passwordEditText.text.toString()
-        val repeatPassword = binding.repeatPasswordEditText.text.toString()
-        val name = binding.nameEditText.text.toString()
+        with(binding) {
+            val email = emailEditText.text.toString()
+            val password = passwordEditText.text.toString()
+            val repeatPassword = repeatPasswordEditText.text.toString()
+            val name = nameEditText.text.toString()
 
-        viewModel.registerUser(email , password , repeatPassword , name)
-        viewModel.registerStatus.observe(viewLifecycleOwner) {
-            if (it) {
-                findNavController().navigate(R.id.action_registerFragment_to_homeFragment)
-            } else {
-                Toast.makeText(requireContext() , "Failure" , Toast.LENGTH_SHORT).show()
+            viewModel.registerUser(email , password , repeatPassword , name)
+            viewModel.registerStatus.observe(viewLifecycleOwner) {
+                if (it) {
+                    findNavController().navigate(R.id.action_registerFragment_to_homeFragment)
+                } else {
+                    Toast.makeText(requireContext() , "Failure" , Toast.LENGTH_SHORT).show()
+                }
             }
+
         }
     }
 

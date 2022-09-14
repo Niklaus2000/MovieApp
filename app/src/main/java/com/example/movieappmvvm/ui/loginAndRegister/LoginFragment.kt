@@ -1,6 +1,5 @@
 package com.example.movieappmvvm.ui.loginAndRegister
 
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.movieappmvvm.R
@@ -23,12 +22,13 @@ class LoginFragment : BaseFragmentBinding<FragmentLoginBinding>(FragmentLoginBin
 
         }
         binding.buttonLogin.setOnClickListener {
-            findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+            findNavController().navigate(R.id.homeFragment)
         }
         binding.buttonLogin.setOnClickListener {
             loginUser()
         }
     }
+
     private fun loginUser() {
         val email = binding.emailEditText.text.toString()
         val password = binding.passwordEditText.text.toString()
@@ -36,11 +36,7 @@ class LoginFragment : BaseFragmentBinding<FragmentLoginBinding>(FragmentLoginBin
 
         viewModel.signIn(email , password)
         viewModel.loggedStatus.observe(viewLifecycleOwner) {
-            if (it) {
-                findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
-            } else {
-                Toast.makeText(requireContext() , "Failure" , Toast.LENGTH_SHORT).show()
-            }
+            it.apply(findNavController() , requireContext())
         }
     }
 }

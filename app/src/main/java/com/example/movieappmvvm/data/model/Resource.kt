@@ -28,6 +28,8 @@ data class Resource<out T>(val status: Status,
                 null
             )
         }
+
+
     }
 }
 
@@ -36,3 +38,4 @@ enum class Status {
     ERROR,
     LOADING
 }
+

@@ -17,7 +17,7 @@ class SplashScreenFragment :BaseFragmentBinding<SplashScreenFragmentBinding>(Spl
     override fun start() {
         viewLifecycleOwner.lifecycleScope.launch {
             splashScreenViewModel.splashFlow.collect {
-                findNavController().navigate(R.id.action_splashScreenFragment_to_entryPageFragment)
+                findNavController().navigate(R.id.entryPageFragment)
             }
         }
     }

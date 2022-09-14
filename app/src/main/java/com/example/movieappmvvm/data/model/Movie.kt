@@ -1,6 +1,10 @@
 package com.example.movieappmvvm.data.model
 
 import android.os.Parcelable
+import android.view.View
+import coil.load
+import com.example.movieappmvvm.databinding.ItemMovieHomeBinding
+import com.example.movieappmvvm.utils.CONSTANTS
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.parcel.RawValue
 
@@ -21,4 +25,41 @@ data class Movie (
     val genres: @RawValue List<Genre> ?= null,
     val video : Boolean ?= null,
     val videos: @RawValue Video ?= null
-) : Parcelable
+) : Parcelable {
+
+
+    fun bind(binding: ItemMovieHomeBinding , position: Int  , movies : ArrayList<Movie>) {
+        when (position) {
+            0 -> {
+                binding.spacingStart.visibility = View.VISIBLE
+            }
+            movies.size - 1 -> {
+                binding.spacingEnd.visibility = View.VISIBLE
+            }
+            else -> {
+                binding.spacingEnd.visibility = View.GONE
+                binding.spacingStart.visibility = View.GONE
+            }
+        }
+
+        binding.movieImage.load(CONSTANTS.ImageBaseURL + movies[position].poster_path) {
+            placeholder(CONSTANTS.moviePlaceHolder[position % 4])
+            error(CONSTANTS.moviePlaceHolder[position % 4])
+        }
+        binding.textMovieName.text = movies[position].title
+        binding.textMovieRating.text = movies[position].vote_average.toString()
+
+//        itemView.setOnClickListener {
+//            val bundle = bundleOf(CONSTANTS.movie to movies[position])
+//            it.findNavController().navigate(R.id.movieDetailsFragment , bundle)
+//        }
+
+        if (position == movies.size - 1) {
+            binding.spacingEnd.visibility = View.VISIBLE
+        }
+
+
+
+    }
+}
+

@@ -1,8 +1,13 @@
 package com.example.movieappmvvm.ui.movies
 
 import android.annotation.SuppressLint
+import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieappmvvm.R
 import com.example.movieappmvvm.data.model.Movie
 import com.example.movieappmvvm.data.model.Status
@@ -10,6 +15,7 @@ import com.example.movieappmvvm.databinding.FragmentMoviesBinding
 import com.example.movieappmvvm.ui.base.BaseFragmentBinding
 import com.example.movieappmvvm.ui.movies.adapter.HomeRecyclerViewAdapter
 import com.example.movieappmvvm.ui.movies.adapter.HomeViewPagerAdapter
+import com.example.movieappmvvm.utils.CONSTANTS
 import com.example.movieappmvvm.utils.showToast
 import com.faltenreich.skeletonlayout.Skeleton
 import com.faltenreich.skeletonlayout.applySkeleton
@@ -18,26 +24,25 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
-class MoviesFragment : BaseFragmentBinding<FragmentMoviesBinding>(FragmentMoviesBinding::inflate) {
+class MoviesFragment : BaseFragmentBinding<FragmentMoviesBinding>(FragmentMoviesBinding::inflate) ,View.OnClickListener{
 
-    private val viewModel : MoviesViewModel by viewModels()
+    private val viewModel: MoviesViewModel by viewModels()
+    private lateinit var navController: NavController
 
+//    private lateinit var moviesAdapter: MoviesAdapter
 
-    private var upcomingMovieList : ArrayList<Movie> = ArrayList()
-    private var popularMovieList : ArrayList<Movie> = ArrayList()
-    private var topRatedMovieList : ArrayList<Movie> = ArrayList()
+    private var upcomingMovieList: ArrayList<Movie> = ArrayList()
+    private var popularMovieList: ArrayList<Movie> = ArrayList()
+    private var topRatedMovieList: ArrayList<Movie> = ArrayList()
 
-    private lateinit var upcomingAdapter : HomeRecyclerViewAdapter
-    private lateinit var popularAdapter : HomeRecyclerViewAdapter
-    private lateinit var topRatedAdapter : HomeRecyclerViewAdapter
+    private lateinit var upcomingAdapter: HomeRecyclerViewAdapter
+    private lateinit var popularAdapter: HomeRecyclerViewAdapter
+    private lateinit var topRatedAdapter: HomeRecyclerViewAdapter
 
-    private lateinit var viewPagerSkeleton : Skeleton
-    lateinit var upcomingSkeleton : Skeleton
-    lateinit var topRatedSkeleton : Skeleton
-    lateinit var popularSkeleton : Skeleton
-
-
-
+    private lateinit var viewPagerSkeleton: Skeleton
+    lateinit var upcomingSkeleton: Skeleton
+    lateinit var topRatedSkeleton: Skeleton
+    lateinit var popularSkeleton: Skeleton
 
 
     override fun start() {
@@ -45,9 +50,19 @@ class MoviesFragment : BaseFragmentBinding<FragmentMoviesBinding>(FragmentMovies
         initAdapters()
         initSkeletons()
 
+
+        binding.textViewAllPopular.setOnClickListener(this)
+        binding.textViewAllTopRated.setOnClickListener(this)
+        binding.textViewAllUpcoming.setOnClickListener(this)
+        binding.homeSearchButton.setOnClickListener(this)
+
+
+
+        navController = Navigation.findNavController(binding.root)
     }
+
     private fun fetchData() {
-        viewModel.loadNowPlaying().observe(requireActivity(), Observer { res ->
+        viewModel.loadNowPlaying().observe(requireActivity() , Observer { res ->
             when (res.status) {
                 Status.LOADING -> {
                     viewPagerSkeleton.showSkeleton()
@@ -55,7 +70,7 @@ class MoviesFragment : BaseFragmentBinding<FragmentMoviesBinding>(FragmentMovies
                 Status.SUCCESS -> {
                     viewPagerSkeleton.showOriginal()
                     binding.homeViewPager.adapter =
-                        HomeViewPagerAdapter(childFragmentManager, lifecycle, res.data!!.results)
+                        HomeViewPagerAdapter(childFragmentManager , lifecycle , res.data!!.results)
                 }
                 Status.ERROR -> {
                     showToast(res.msg.toString())
@@ -63,7 +78,7 @@ class MoviesFragment : BaseFragmentBinding<FragmentMoviesBinding>(FragmentMovies
             }
         })
 
-        viewModel.loadUpcoming().observe(requireActivity(), Observer { res ->
+        viewModel.loadUpcoming().observe(requireActivity() , Observer { res ->
             when (res.status) {
                 Status.LOADING -> {
                     if (upcomingMovieList.isNullOrEmpty())
@@ -81,7 +96,7 @@ class MoviesFragment : BaseFragmentBinding<FragmentMoviesBinding>(FragmentMovies
             }
         })
 
-        viewModel.loadPopular().observe(requireActivity(), Observer { res ->
+        viewModel.loadPopular().observe(requireActivity() , Observer { res ->
             when (res.status) {
                 Status.LOADING -> {
                     if (popularMovieList.isNullOrEmpty())
@@ -99,7 +114,7 @@ class MoviesFragment : BaseFragmentBinding<FragmentMoviesBinding>(FragmentMovies
             }
         })
 
-        viewModel.loadTopRated().observe(requireActivity(), Observer { res ->
+        viewModel.loadTopRated().observe(requireActivity() , Observer { res ->
             when (res.status) {
                 Status.LOADING -> {
                     if (topRatedMovieList.isNullOrEmpty())
@@ -117,35 +132,65 @@ class MoviesFragment : BaseFragmentBinding<FragmentMoviesBinding>(FragmentMovies
             }
         })
     }
+
     private fun initAdapters() {
-        upcomingAdapter = HomeRecyclerViewAdapter(requireContext(), upcomingMovieList)
+        upcomingAdapter = HomeRecyclerViewAdapter(requireContext() , upcomingMovieList)
         binding.recyclerViewUpcoming.adapter = upcomingAdapter
 
-        popularAdapter = HomeRecyclerViewAdapter(requireContext(), popularMovieList)
+        popularAdapter = HomeRecyclerViewAdapter(requireContext() , popularMovieList)
         binding.recyclerViewPopular.adapter = popularAdapter
 
-        topRatedAdapter = HomeRecyclerViewAdapter(requireContext(), topRatedMovieList)
+        topRatedAdapter = HomeRecyclerViewAdapter(requireContext() , topRatedMovieList)
         binding.recyclerViewTopRated.adapter = topRatedAdapter
+
+//        moviesAdapter = MoviesAdapter()
+//        binding.rvMovies.adapter = moviesAdapter
+//        binding.rvMovies.layoutManager = LinearLayoutManager(requireContext())
     }
+
     @SuppressLint("ResourceType")
-    private fun initSkeletons()
-    {
+    private fun initSkeletons() {
         viewPagerSkeleton = binding.homeViewPager.applySkeleton(R.layout.fragment_home_view_pager)
 
         upcomingSkeleton = binding.recyclerViewUpcoming.applySkeleton(
-            R.layout.item_movie_home,
+            R.layout.item_movie_home ,
             itemCount = 10
         )
 
         popularSkeleton = binding.recyclerViewPopular.applySkeleton(
-            R.layout.item_movie_home,
+            R.layout.item_movie_home ,
             itemCount = 10
         )
 
         topRatedSkeleton = binding.recyclerViewTopRated.applySkeleton(
-            R.layout.item_movie_home,
+            R.layout.item_movie_home ,
             itemCount = 10
         )
     }
+    override fun onClick(v: View?) {
+
+        when(v!!.id) {
+            R.id.home_search_button -> {
+                navController.navigate(R.id.searchFragment)
+            }
+            R.id.text_view_all_popular -> {
+                val bundle = bundleOf(CONSTANTS.viewAll to CONSTANTS.Popular)
+                navController.navigate(R.id.viewAllFragment, bundle)
+            }
+            R.id.text_view_all_top_rated -> {
+                val bundle = bundleOf(CONSTANTS.viewAll to CONSTANTS.TopRated)
+                navController.navigate(R.id.viewAllFragment, bundle)
+            }
+            R.id.text_view_all_upcoming -> {
+                val bundle = bundleOf(CONSTANTS.viewAll to CONSTANTS.Upcoming)
+                navController.navigate(R.id.viewAllFragment, bundle)
+            }
+
+
+        }
+
+    }
+
+
 
 }
