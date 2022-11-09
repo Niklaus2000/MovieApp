@@ -5,11 +5,8 @@ import com.example.movieappmvvm.R
 class CONSTANTS {
 
     companion object {
-        const val TABLE_NAME = "BOOKMARK_TABLE"
-        const val cast = "CAST"
         const val movie = "MOVIE"
 
-        const val API_URL = "https://api.themoviedb.org/3/";
         const val API_KEY = "a6ea6249484a13e9812c3f315028feb0"
         const val BaseURL = "https://api.themoviedb.org/3/"
         const val ImageBaseURL = "https://image.tmdb.org/t/p/original"

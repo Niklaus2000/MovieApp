@@ -7,29 +7,6 @@
     tools:context=".ui.splash.SplashScreenFragment"
     android:background="@drawable/gradient_background">
 
-<!--    <com.airbnb.lottie.LottieAnimationView-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="0dp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintHeight_percent=".27"-->
-<!--        app:lottie_autoPlay="true"-->
-<!--        android:scaleType="centerCrop"-->
-<!--        app:layout_constraintVertical_bias="0"-->
-<!--        app:lottie_loop="true"-->
-<!--        app:lottie_rawRes="@raw/login"/>-->
-
-
-<!--    <View-->
-<!--        android:layout_width="130dp"-->
-<!--        android:layout_height="130dp"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        android:background="@color/white"/>-->
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/movieLottie"

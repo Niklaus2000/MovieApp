@@ -6,8 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.movieappmvvm.data.onboardingitem.OnBoardingItem
 import com.example.movieappmvvm.databinding.OnboardingItemContainerBinding
 
-class OnBoardingItemsAdapter(private var onBoardingList: List<OnBoardingItem>) :
-    RecyclerView.Adapter<OnBoardingItemsAdapter.ViewHolder>() {
+class OnBoardingItemsAdapter(private var onBoardingList: List<OnBoardingItem>) : RecyclerView.Adapter<OnBoardingItemsAdapter.ViewHolder>() {
 
 
     class ViewHolder(val binding: OnboardingItemContainerBinding) : RecyclerView.ViewHolder(binding.root)

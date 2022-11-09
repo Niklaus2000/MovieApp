@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -16,25 +17,19 @@ import com.example.movieappmvvm.R
 import com.example.movieappmvvm.data.onboardingitem.OnBoardingItem
 import com.example.movieappmvvm.databinding.FragmentEntryPageBinding
 import com.example.movieappmvvm.ui.Adapter.OnBoardingItemsAdapter
+import com.example.movieappmvvm.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class EntryPageFragment : Fragment() {
-    private var _binding: FragmentEntryPageBinding? = null
-    private val binding get() = _binding!!
+class EntryPageFragment : BaseFragment<EntryPageViewModel,FragmentEntryPageBinding>(FragmentEntryPageBinding::inflate){
+    override val viewModel: EntryPageViewModel by viewModels()
+
     private lateinit var onBoardingItemsAdapter: OnBoardingItemsAdapter
 //    private lateinit var indicatorsContainer: LinearLayout
 
 
 
-    override fun onCreateView(
-        inflater: LayoutInflater , container: ViewGroup? ,
-        savedInstanceState: Bundle? ,
-    ): View {
-         _binding = FragmentEntryPageBinding.inflate(inflater , container , false)
-        return binding.root
 
-    }
 
     override fun onViewCreated(view: View , savedInstanceState: Bundle?) {
         super.onViewCreated(view , savedInstanceState)

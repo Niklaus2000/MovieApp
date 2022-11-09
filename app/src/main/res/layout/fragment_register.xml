@@ -92,7 +92,7 @@
                 android:paddingEnd="6dp">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/nameEditText"
+                    android:id="@+id/nameEditTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/ic_person"
@@ -111,7 +111,7 @@
                 android:paddingEnd="6dp">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/emailEditText"
+                    android:id="@+id/emailEditTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/ic_email"
@@ -132,7 +132,7 @@
                 app:passwordToggleEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/passwordEditText"
+                    android:id="@+id/passwordEditTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/ic_lock"
@@ -151,7 +151,7 @@
                 >
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/repeatPasswordEditText"
+                    android:id="@+id/repeatPasswordEditTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
@@ -165,7 +165,7 @@
     </androidx.cardview.widget.CardView>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/signUpButton"
         android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:background="@drawable/login_btn_bg"

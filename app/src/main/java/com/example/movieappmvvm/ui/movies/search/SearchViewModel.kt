@@ -11,8 +11,7 @@ import javax.inject.Inject
 @ExperimentalStdlibApi
 class SearchViewModel @Inject constructor(private val networkRepository: NetworkRepository) : ViewModel() {
 
-    fun getSearchMovie(query: String) =
-        networkRepository.getSearchResult(query).cachedIn(viewModelScope)
+    fun getSearchMovie(query: String) = networkRepository.getSearchResult(query).cachedIn(viewModelScope)
 
 
 }

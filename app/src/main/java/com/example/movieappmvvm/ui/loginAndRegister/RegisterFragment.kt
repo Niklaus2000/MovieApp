@@ -1,24 +1,27 @@
 package com.example.movieappmvvm.ui.loginAndRegister
 
 import android.content.Context
-import android.widget.Toast
+import android.os.Bundle
+import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.movieappmvvm.R
 import com.example.movieappmvvm.databinding.FragmentRegisterBinding
-import com.example.movieappmvvm.ui.base.BaseFragmentBinding
+import com.example.movieappmvvm.ui.base.BaseFragment
+import com.example.movieappmvvm.ui.loginAndRegister.userData.User
 import com.example.movieappmvvm.ui.loginAndRegister.viewModel.RegisterViewModel
-import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class RegisterFragment : BaseFragmentBinding<FragmentRegisterBinding>(FragmentRegisterBinding::inflate) {
+class RegisterFragment : BaseFragment<RegisterViewModel,FragmentRegisterBinding>(FragmentRegisterBinding::inflate) {
 
-    private val viewModel: RegisterViewModel by viewModels()
-    private lateinit var firebaseAuth: FirebaseAuth
+    override val viewModel: RegisterViewModel by viewModels()
 
-    override fun start() {
+
+    override fun onViewCreated(view: View , savedInstanceState: Bundle?) {
+        super.onViewCreated(view , savedInstanceState)
+
 
         binding.btnLogRegister.setOnClickListener {
             findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
@@ -27,13 +30,11 @@ class RegisterFragment : BaseFragmentBinding<FragmentRegisterBinding>(FragmentRe
             onAttach(requireActivity().applicationContext)
             findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
         }
-
-        binding.button.setOnClickListener {
-            registerUsers()
-        }
-
+        initView()
 
     }
+
+
 
 
     override fun onAttach(context: Context) {
@@ -48,22 +49,16 @@ class RegisterFragment : BaseFragmentBinding<FragmentRegisterBinding>(FragmentRe
         requireActivity().onBackPressedDispatcher.addCallback(requireActivity() , callback)
     }
 
-    private fun registerUsers() {
-        with(binding) {
-            val email = emailEditText.text.toString()
-            val password = passwordEditText.text.toString()
-            val repeatPassword = repeatPasswordEditText.text.toString()
-            val name = nameEditText.text.toString()
-
-            viewModel.registerUser(email , password , repeatPassword , name)
-            viewModel.registerStatus.observe(viewLifecycleOwner) {
-                if (it) {
-                    findNavController().navigate(R.id.action_registerFragment_to_homeFragment)
-                } else {
-                    Toast.makeText(requireContext() , "Failure" , Toast.LENGTH_SHORT).show()
-                }
-            }
-
+    private fun initView(): Unit = with(binding) {
+        signUpButton.setOnClickListener {
+            val email = emailEditTextView.text.toString().trim()
+            val password = passwordEditTextView.text.toString().trim()
+            val repeatPassword = repeatPasswordEditTextView.text.toString().trim()
+            val user = User(email = email , password = password , repeatPassword = repeatPassword)
+            viewModel.register(user)
+        }
+        collectFlow(viewModel.channelFlow) {
+            findNavController().navigate(R.id.homeFragment)
         }
     }
 

@@ -1,31 +1,31 @@
 package com.example.movieappmvvm.ui.loginAndRegister.viewModel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.FirebaseAuth
+import androidx.lifecycle.viewModelScope
+import com.example.movieappmvvm.core.AuthResult
+import com.example.movieappmvvm.data.repository.firebaseRepository.UserRepository
+import com.example.movieappmvvm.ui.loginAndRegister.userData.User
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LoginViewModel: ViewModel()  {
 
-    private lateinit var user: FirebaseAuth
+@HiltViewModel
+class LoginViewModel @Inject constructor(private val userRepository: UserRepository) :
+    ViewModel() {
 
-    private val _loggedStatus = MutableLiveData<LogStatus>()
-    val loggedStatus: LiveData<LogStatus> get() = _loggedStatus
+    private val channel = Channel<AuthResult>()
+    val channelFlow = channel.receiveAsFlow()
 
 
-    fun signIn(email: String? , password: String?) {
-        user = FirebaseAuth.getInstance()
-        if (email!!.isNotEmpty() && password!!.isNotEmpty() ) {
-
-            user.signInWithEmailAndPassword(email,password)
-                .addOnCompleteListener { task ->
-                    if(task.isSuccessful) _loggedStatus.value = LogStatus.Success()
-                    else _loggedStatus.value = LogStatus.Error()
-
-                }
+    fun login(user: User) {
+        viewModelScope.launch {
+            channel.send(userRepository.loginUser(user))
         }
     }
 
-}
 
+}
 

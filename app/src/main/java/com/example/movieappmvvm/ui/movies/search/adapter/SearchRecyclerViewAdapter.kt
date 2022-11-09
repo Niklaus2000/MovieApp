@@ -37,7 +37,7 @@ class SearchRecyclerViewAdapter() :
         }
     }
 
-    override fun onBindViewHolder(holder: SearchRecyclerViewAdapter.ViewHolder , position: Int) {
+    override fun onBindViewHolder(holder:ViewHolder , position: Int) {
         val currentItem = getItem(position)
         if (currentItem != null) {
             holder.bind(currentItem)

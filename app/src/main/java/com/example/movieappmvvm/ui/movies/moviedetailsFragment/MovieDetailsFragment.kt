@@ -1,6 +1,7 @@
 package com.example.movieappmvvm.ui.movies.moviedetailsFragment
 
 import android.annotation.SuppressLint
+import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -11,7 +12,7 @@ import com.example.movieappmvvm.data.model.Cast
 import com.example.movieappmvvm.data.model.Movie
 import com.example.movieappmvvm.data.model.Status
 import com.example.movieappmvvm.databinding.FragmentMovieDetailsBinding
-import com.example.movieappmvvm.ui.base.BaseFragmentBinding
+import com.example.movieappmvvm.ui.base.BaseFragment
 import com.example.movieappmvvm.ui.movies.moviedetailsFragment.adapter.CastRecyclerViewAdapter
 import com.example.movieappmvvm.ui.movies.moviedetailsFragment.dialog.VideoPlayerDialog
 import com.example.movieappmvvm.utils.CONSTANTS
@@ -25,26 +26,28 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @ExperimentalStdlibApi
 @AndroidEntryPoint
 @ExperimentalCoroutinesApi
-class MovieDetailsFragment :
-    BaseFragmentBinding<FragmentMovieDetailsBinding>(FragmentMovieDetailsBinding::inflate) , View.OnClickListener  {
+class MovieDetailsFragment : BaseFragment<MovieDetailsViewModel,FragmentMovieDetailsBinding>(FragmentMovieDetailsBinding::inflate) , View.OnClickListener  {
 
 
     private lateinit var movie: Movie
-    private val viewModel: MovieDetailsViewModel by viewModels()
+    override val viewModel: MovieDetailsViewModel by viewModels()
 
     private var castList: ArrayList<Cast> = ArrayList()
     private lateinit var castRecyclerViewAdapter: CastRecyclerViewAdapter
     private lateinit var castSkeleton: Skeleton
 
 
-    override fun start() {
+    override fun onViewCreated(view: View , savedInstanceState: Bundle?) {
+        super.onViewCreated(view , savedInstanceState)
+
+
+
         movie = requireArguments().get(CONSTANTS.movie) as Movie
 
 
         initAdapters()
         loadData()
         loadCast()
-
 
 
         viewModel.movieName.value = movie.title
@@ -57,8 +60,6 @@ class MovieDetailsFragment :
         binding.fabPlayButton.setOnClickListener(this)
 
         viewModel.getMoviesDetails(movie.id)
-
-
 
 
     }

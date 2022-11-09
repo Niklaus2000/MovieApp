@@ -1,33 +1,35 @@
 package com.example.movieappmvvm.ui.movies.search
 
 
+import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import com.example.movieappmvvm.databinding.FragmentSearchBinding
-import com.example.movieappmvvm.ui.base.BaseFragmentBinding
+import com.example.movieappmvvm.ui.base.BaseFragment
 import com.example.movieappmvvm.ui.movies.search.adapter.SearchRecyclerViewAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import timber.log.Timber.e
 
 
 @ExperimentalStdlibApi
 @AndroidEntryPoint
-@ExperimentalCoroutinesApi
-class SearchFragment : BaseFragmentBinding<FragmentSearchBinding>(FragmentSearchBinding::inflate) {
+class SearchFragment : BaseFragment<SearchViewModel,FragmentSearchBinding>(FragmentSearchBinding::inflate) {
 
 
-    private val viewModel: SearchViewModel by viewModels()
+    override val viewModel: SearchViewModel by viewModels()
     private lateinit var searchAdapter: SearchRecyclerViewAdapter
 
-    override fun start() {
+    override fun onViewCreated(view: View , savedInstanceState: Bundle?) {
+        super.onViewCreated(view , savedInstanceState)
         searchMovieAndAdapterInit()
-
     }
+
+
     private fun searchMovieAndAdapterInit() {
         searchAdapter = SearchRecyclerViewAdapter()
         binding.searchRecyclerView.adapter = searchAdapter
@@ -64,7 +66,7 @@ class SearchFragment : BaseFragmentBinding<FragmentSearchBinding>(FragmentSearch
             viewModel.getSearchMovie(binding.searchEditText.text.toString())
                 .observe(viewLifecycleOwner, Observer {
                     searchAdapter.submitData(viewLifecycleOwner.lifecycle, it)
-                    e(it.toString())
+                    Toast.makeText(requireActivity(),"Dankfa", Toast.LENGTH_SHORT).show()
                 })
     }
 }

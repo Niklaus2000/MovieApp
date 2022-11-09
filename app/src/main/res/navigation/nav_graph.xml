@@ -9,7 +9,11 @@
         android:id="@+id/splashScreenFragment"
         android:name="com.example.movieappmvvm.ui.splash.SplashScreenFragment"
         android:label="splash_screen_fragment"
-        tools:layout="@layout/splash_screen_fragment" />
+        tools:layout="@layout/splash_screen_fragment" >
+        <action
+            android:id="@+id/action_splashScreenFragment_to_entryPageFragment"
+            app:destination="@id/entryPageFragment" />
+    </fragment>
     <fragment
         android:id="@+id/entryPageFragment"
         android:name="com.example.movieappmvvm.ui.entryPage.EntryPageFragment"
@@ -68,11 +72,7 @@
         android:name="com.example.movieappmvvm.ui.movies.moviedetailsFragment.MovieDetailsFragment"
         android:label="fragment_movie_details"
         tools:layout="@layout/fragment_movie_details" />
-    <fragment
-        android:id="@+id/actorDetailsFragment"
-        android:name="com.example.movieappmvvm.ui.movies.actorsDetailsFragment.ActorDetailsFragment"
-        android:label="fragment_actors_details"
-        tools:layout="@layout/fragment_actor_details" />
+
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.example.movieappmvvm.ui.movies.search.SearchFragment"

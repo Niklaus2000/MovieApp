@@ -1,18 +1,18 @@
 package com.example.movieappmvvm.ui.movies
 
 import android.annotation.SuppressLint
+import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieappmvvm.R
 import com.example.movieappmvvm.data.model.Movie
 import com.example.movieappmvvm.data.model.Status
 import com.example.movieappmvvm.databinding.FragmentMoviesBinding
-import com.example.movieappmvvm.ui.base.BaseFragmentBinding
+import com.example.movieappmvvm.ui.base.BaseFragment
 import com.example.movieappmvvm.ui.movies.adapter.HomeRecyclerViewAdapter
 import com.example.movieappmvvm.ui.movies.adapter.HomeViewPagerAdapter
 import com.example.movieappmvvm.utils.CONSTANTS
@@ -24,9 +24,9 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
-class MoviesFragment : BaseFragmentBinding<FragmentMoviesBinding>(FragmentMoviesBinding::inflate) ,View.OnClickListener{
+class MoviesFragment : BaseFragment<MoviesViewModel,FragmentMoviesBinding>(FragmentMoviesBinding::inflate) ,View.OnClickListener{
 
-    private val viewModel: MoviesViewModel by viewModels()
+    override val viewModel: MoviesViewModel by viewModels()
     private lateinit var navController: NavController
 
 //    private lateinit var moviesAdapter: MoviesAdapter
@@ -45,18 +45,17 @@ class MoviesFragment : BaseFragmentBinding<FragmentMoviesBinding>(FragmentMovies
     lateinit var popularSkeleton: Skeleton
 
 
-    override fun start() {
+    override fun onViewCreated(view: View , savedInstanceState: Bundle?) {
+        super.onViewCreated(view , savedInstanceState)
+
         fetchData()
         initAdapters()
         initSkeletons()
-
 
         binding.textViewAllPopular.setOnClickListener(this)
         binding.textViewAllTopRated.setOnClickListener(this)
         binding.textViewAllUpcoming.setOnClickListener(this)
         binding.homeSearchButton.setOnClickListener(this)
-
-
 
         navController = Navigation.findNavController(binding.root)
     }
@@ -133,15 +132,15 @@ class MoviesFragment : BaseFragmentBinding<FragmentMoviesBinding>(FragmentMovies
         })
     }
 
-    private fun initAdapters() {
+    private fun initAdapters(): Unit = with(binding) {
         upcomingAdapter = HomeRecyclerViewAdapter(requireContext() , upcomingMovieList)
-        binding.recyclerViewUpcoming.adapter = upcomingAdapter
+        recyclerViewUpcoming.adapter = upcomingAdapter
 
         popularAdapter = HomeRecyclerViewAdapter(requireContext() , popularMovieList)
-        binding.recyclerViewPopular.adapter = popularAdapter
+        recyclerViewPopular.adapter = popularAdapter
 
         topRatedAdapter = HomeRecyclerViewAdapter(requireContext() , topRatedMovieList)
-        binding.recyclerViewTopRated.adapter = topRatedAdapter
+        recyclerViewTopRated.adapter = topRatedAdapter
 
 //        moviesAdapter = MoviesAdapter()
 //        binding.rvMovies.adapter = moviesAdapter
