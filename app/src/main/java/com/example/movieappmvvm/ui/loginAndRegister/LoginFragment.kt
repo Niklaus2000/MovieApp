@@ -3,11 +3,14 @@ package com.example.movieappmvvm.ui.loginAndRegister
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.movieappmvvm.R
+import com.example.movieappmvvm.core.response.AuthResult
 import com.example.movieappmvvm.databinding.FragmentLoginBinding
 import com.example.movieappmvvm.ui.base.BaseFragment
 import com.example.movieappmvvm.ui.loginAndRegister.userData.User
+import com.example.movieappmvvm.ui.loginAndRegister.viewModel.LogStatus
 import com.example.movieappmvvm.ui.loginAndRegister.viewModel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,7 +25,9 @@ class LoginFragment :
         super.onViewCreated(view , savedInstanceState)
 
         setUpNav()
+        initCollectFlow()
         loginUser()
+
     }
 
     private fun setUpNav(): Unit = with(binding) {
@@ -32,19 +37,25 @@ class LoginFragment :
         }
     }
 
+    private fun initCollectFlow() {
+        collectFlow(viewModel.channelFlow) {
+            when (it) {
+                is AuthResult.SuccessResult -> findNavController().navigate(R.id.moviesFragment)
+                is AuthResult.ErrorResult -> LogStatus.Error()
+            }
+        }
+    }
+
 
     private fun loginUser(): Unit = with(binding) {
         buttonLogin.setOnClickListener {
             val email = emailEditText.text.toString().trim()
             val password = passwordEditText.text.toString().trim()
 
-            val user = User(email = email, password = password)
+            val user = User(email = email , password = password)
             viewModel.login(user)
-
-            collectFlow(viewModel.channelFlow) {
-                findNavController().navigate(R.id.homeFragment)
-            }
         }
+
 
     }
 }

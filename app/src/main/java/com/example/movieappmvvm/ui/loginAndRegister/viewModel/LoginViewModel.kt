@@ -2,7 +2,7 @@ package com.example.movieappmvvm.ui.loginAndRegister.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movieappmvvm.core.AuthResult
+import com.example.movieappmvvm.core.response.AuthResult
 import com.example.movieappmvvm.data.repository.firebaseRepository.UserRepository
 import com.example.movieappmvvm.ui.loginAndRegister.userData.User
 import dagger.hilt.android.lifecycle.HiltViewModel

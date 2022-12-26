@@ -2,51 +2,56 @@ package com.example.movieappmvvm.ui.movies.moviesAllFragment
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
-import com.example.movieappmvvm.R
+import androidx.navigation.fragment.findNavController
+import androidx.paging.map
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.example.movieappmvvm.core.response.UiState
+import com.example.movieappmvvm.data.model.moviesUiModel.MoviesUIModel
 import com.example.movieappmvvm.databinding.FragmentViewAllBinding
 import com.example.movieappmvvm.ui.base.BaseFragment
-import com.example.movieappmvvm.ui.movies.moviesAllFragment.adapter.ViewAllRecyclerViewAdapter
+import com.example.movieappmvvm.ui.core.OnItemClick
+import com.example.movieappmvvm.ui.movies.moviesAllFragment.adapter.ViewAllAdapter
 import com.example.movieappmvvm.utils.CONSTANTS
-import com.faltenreich.skeletonlayout.Skeleton
-import com.faltenreich.skeletonlayout.applySkeleton
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.launch
 
 
-@ExperimentalCoroutinesApi
 @AndroidEntryPoint
-class ViewAllFragment: BaseFragment<ViewAllViewModel,FragmentViewAllBinding>(FragmentViewAllBinding::inflate) {
-
-
-
-    private lateinit var movieAdapter: ViewAllRecyclerViewAdapter
-    private lateinit var movieSkeleton: Skeleton
+class ViewAllFragment :
+    BaseFragment<ViewAllViewModel , FragmentViewAllBinding>(FragmentViewAllBinding::inflate) ,
+    OnItemClick<MoviesUIModel> {
     override val viewModel: ViewAllViewModel by viewModels()
+
+    private var pageType: String? = null
+    private lateinit var movieAdapter: ViewAllAdapter
 
     override fun onViewCreated(view: View , savedInstanceState: Bundle?) {
         super.onViewCreated(view , savedInstanceState)
 
-        setUpSkeletonAndAdapter()
+        setUpAdapter()
+        viewModel.getPopular()
+        initAdapters()
+
+
+
+
     }
 
 
+    private fun setUpAdapter(): Unit = with(binding) {
 
+        val safeArgs = ViewAllFragmentArgs.fromBundle(requireArguments())
+        pageType = safeArgs.name
+        pageTitle.text = pageType
 
-
-    private fun setUpSkeletonAndAdapter() {
-        movieAdapter = ViewAllRecyclerViewAdapter()
-        binding.movieRecyclerView.adapter = movieAdapter
-
-        movieSkeleton = binding.movieRecyclerView.applySkeleton(R.layout.item_search, 15)
-
-        val pageType = requireArguments().get(CONSTANTS.viewAll)
-        binding.pageTitle.text = pageType.toString()
-        when(pageType) {
-            CONSTANTS.Upcoming -> fetchUpcoming()
-            CONSTANTS.TopRated -> fetchTopRated()
+        when (pageType) {
+            CONSTANTS.Upcoming -> Toast.makeText(requireContext() , "UpComing" , Toast.LENGTH_SHORT).show()
             CONSTANTS.Popular -> fetchPopular()
+            CONSTANTS.TopRated -> Toast.makeText(requireContext() , "TopRated" , Toast.LENGTH_SHORT).show()
         }
 
         binding.buttonBack.setOnClickListener {
@@ -54,31 +59,51 @@ class ViewAllFragment: BaseFragment<ViewAllViewModel,FragmentViewAllBinding>(Fra
         }
 
     }
+//
 
     private fun fetchPopular() {
-        viewModel.fetchPopular().observe(viewLifecycleOwner) {
-
-            movieAdapter.submitData(viewLifecycleOwner.lifecycle, it)
-
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel._popularStateFlow.collect{
+                when (it) {
+                    is UiState.Error -> Toast.makeText(
+                        requireContext(),
+                        "Error",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    is UiState.Loading -> Toast.makeText(
+                        requireContext(),
+                        "Loading",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    is UiState.Success -> movieAdapter.submitData(it.data.map { it1 ->
+                        MoviesUIModel(
+                            it1.id,
+                            it1.poster_path,
+                            it1.title,
+                            it1.vote_average!!.toFloat(),
+                            it1.release_date ,
+                            it1.runtime,
+                            it1.genres,
+                            it1.overview,
+                            it1.backdrop_path,
+                        )
+                    })
+                }
+            }
         }
     }
 
-    private fun fetchTopRated() {
+    private fun initAdapters(): Unit = with(binding) {
+        movieAdapter = ViewAllAdapter(this@ViewAllFragment)
+        movieRecyclerView.adapter = movieAdapter
+        movieRecyclerView.layoutManager =  StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
 
-        viewModel.fetchTopRated().observe(viewLifecycleOwner) {
-
-            movieAdapter.submitData(viewLifecycleOwner.lifecycle, it)
-
-        }
 
     }
 
-    private fun fetchUpcoming() {
 
-        viewModel.fetchUpcoming().observe(viewLifecycleOwner) {
-
-            movieAdapter.submitData(viewLifecycleOwner.lifecycle, it)
-
-        }
+    override fun onItemClick(item: MoviesUIModel) {
+        findNavController().navigate(ViewAllFragmentDirections.actionViewAllFragmentToMovieDetailsFragment(item.id))
     }
+
 }

@@ -133,4 +133,6 @@ class EntryPageFragment : BaseFragment<EntryPageViewModel,FragmentEntryPageBindi
         }
     }
 
+
+
 }

@@ -12,10 +12,10 @@ class CONSTANTS {
         const val ImageBaseURL = "https://image.tmdb.org/t/p/original"
 
 
-        val viewAll = "view"
-        val Popular = "Popular"
-        val Upcoming = "Upcoming"
-        val TopRated = "TopRated"
+        const val viewAll = "view"
+        const val Popular = "Popular"
+        const val Upcoming = "Upcoming"
+        const val TopRated = "TopRated"
         val Bookmarks = "Bookmarks"
 
         fun getGenreMap(): HashMap<Int , String> {

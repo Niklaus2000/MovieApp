@@ -1,45 +1,40 @@
 package com.example.movieappmvvm.ui.paging
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.movieappmvvm.data.api.NetworkService
+import com.bumptech.glide.load.HttpException
+import com.example.movieappmvvm.data.api.MoviesService
 import com.example.movieappmvvm.data.model.Movie
 import com.example.movieappmvvm.utils.CONSTANTS
-import retrofit2.HttpException
 import java.io.IOException
 
-private const val DEFAULT_PAGE = 1
-
 class PopularPagingSource(
-    private val networkApi : NetworkService
-) : PagingSource<Int , Movie>() {
+    private val apiService: MoviesService
+) : PagingSource<Int, Movie>() {
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int , Movie> {
+    override fun getRefreshKey(state: PagingState<Int, Movie>): Int? {
+        return null
+    }
 
-        val position = params.key ?: DEFAULT_PAGE
+    override suspend fun load(params: LoadParams<Int>):
+            LoadResult<Int, Movie> {
 
         return try {
-
-            val response = networkApi.getPopularMovies(CONSTANTS.API_KEY, position)
-            val data = response.body()!!.results
+            val currentPage = params.key ?: 1
+            val response = apiService.getPopularMovies(CONSTANTS.API_KEY,currentPage)
+            val responseData = mutableListOf<Movie>()
+            val data = response.body()?.results ?: emptyList()
+            responseData.addAll(data)
 
             LoadResult.Page(
-                data = data,
-                prevKey = if(position == DEFAULT_PAGE) null else position-1,
-                nextKey = if(data.isEmpty()) null else position+1
+                data = responseData,
+                prevKey = if (currentPage == 1) null else -1,
+                nextKey = currentPage.plus(1)
             )
+        } catch (e: Exception) {
+            LoadResult.Error(e)
+        }
 
-        }
-        catch(exception : IOException) {
-            LoadResult.Error(exception)
-        }
-        catch(exception : HttpException) {
-            LoadResult.Error(exception)
-        }
     }
-
-    override fun getRefreshKey(state: PagingState<Int , Movie>): Int {
-        return 1
-    }
-
 }

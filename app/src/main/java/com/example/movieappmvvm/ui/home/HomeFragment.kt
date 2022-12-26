@@ -10,17 +10,19 @@ import com.example.movieappmvvm.ui.base.BaseFragment
 import com.example.movieappmvvm.ui.movies.MoviesFragment
 import com.example.movieappmvvm.ui.profile.ProfileFragment
 import com.example.movieappmvvm.ui.tv.TvFragment
+import com.ismaeldivita.chipnavigation.ChipNavigationBar
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<HomeViewModel,FragmentHomeBinding>(FragmentHomeBinding::inflate) {
 
-
     override val viewModel: HomeViewModel by viewModels()
 
     override fun onViewCreated(view: View , savedInstanceState: Bundle?) {
         super.onViewCreated(view , savedInstanceState)
+
+        binding.bottomMenu.setItemSelected(R.id.movies , true)
 
         setUpBottomMenu()
     }
@@ -51,7 +53,7 @@ class HomeFragment : BaseFragment<HomeViewModel,FragmentHomeBinding>(FragmentHom
 
 
     private fun openMainFragment(fragment: Fragment) {
-        val transaction = parentFragmentManager.beginTransaction()
+        val transaction = childFragmentManager.beginTransaction()
         transaction.replace(R.id.frame_layout, fragment)
         transaction.commit()
     }

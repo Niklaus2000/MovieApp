@@ -1,16 +1,20 @@
 package com.example.movieappmvvm.data.model
 
 import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Cast (
-    val id: Int,
+    @SerializedName("id")
+    val id: Int?,
+    @SerializedName("name")
     val name: String,
     val original_name: String,
     val adult: Boolean,
     val character: String,
     val also_known_as: ArrayList<String>,
+    @SerializedName("profile_path")
     val profile_path: String?,
     val gender: Int,
     val known_for_department: String,

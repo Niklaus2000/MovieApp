@@ -1,22 +1,27 @@
 package com.example.movieappmvvm.ui.base
 
-import android.view.ViewGroup
+import android.view.View
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.movieappmvvm.data.model.moviesUiModel.MoviesUIModel
 
 abstract class BaseRecyclerViewAdapter<T : Any> :
-    ListAdapter<T , RecyclerView.ViewHolder>(BaseItemCallback<T>()) {
+    ListAdapter<T, BaseRecyclerViewAdapter.BaseViewHolder<T>>(BaseItemCallback<T>()) {
+    override fun onBindViewHolder(holder: BaseViewHolder<T>, position: Int) =
+        holder.bind(getItem(position))
 
-    abstract fun getViewHolder(parent: ViewGroup , viewType: Int): RecyclerView.ViewHolder
+    abstract class BaseViewHolder<T>(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        abstract fun bind(item: T)
 
-    override fun onCreateViewHolder(parent: ViewGroup , viewType: Int): RecyclerView.ViewHolder =
-        getViewHolder(parent, viewType)
 
-    @Suppress("UNCHECKED_CAST")
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder , position: Int) =
-        (holder as Bind<T>).bind(getItem(position))
-
-    interface Bind<T> {
-        fun bind(item: T)
+        protected fun onClick(block: () -> Unit) = itemView.setOnClickListener {
+            block.invoke()
+        }
     }
 }
+
+
+
+
+

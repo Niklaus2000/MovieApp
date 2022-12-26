@@ -1,0 +1,24 @@
+package com.example.movieappmvvm.ui.base
+
+import android.view.View
+import androidx.paging.PagingData
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
+
+abstract class BaseRecyclerViewPageAdapter<T : Any> :
+    PagingDataAdapter<T , BaseRecyclerViewPageAdapter.BaseViewHolder<T>>(BaseItemCallback<T>()) {
+
+
+    override fun onBindViewHolder(holder: BaseViewHolder<T> , position: Int) =
+        holder.bind(getItem(position)!!)
+
+    abstract class BaseViewHolder<T>(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        abstract fun bind(item: T)
+
+
+        protected fun onClick(block: () -> Unit) = itemView.setOnClickListener {
+            block.invoke()
+        }
+    }
+}

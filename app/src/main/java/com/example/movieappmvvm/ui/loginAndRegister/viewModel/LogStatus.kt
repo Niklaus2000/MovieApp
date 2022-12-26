@@ -9,7 +9,7 @@ interface LogStatus  {
     fun apply(navController: NavController , context: Context)
     class Success: LogStatus {
         override fun apply(navController: NavController , context: Context) {
-            navController.navigate(R.id.homeFragment)
+            navController.navigate(R.id.moviesFragment)
         }
     }
     class Error: LogStatus {
@@ -18,3 +18,4 @@ interface LogStatus  {
         }
     }
 }
+

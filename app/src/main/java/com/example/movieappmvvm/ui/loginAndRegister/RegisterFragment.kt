@@ -5,11 +5,15 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.movieappmvvm.R
+import com.example.movieappmvvm.core.response.AuthResult
 import com.example.movieappmvvm.databinding.FragmentRegisterBinding
 import com.example.movieappmvvm.ui.base.BaseFragment
 import com.example.movieappmvvm.ui.loginAndRegister.userData.User
+import com.example.movieappmvvm.ui.loginAndRegister.viewModel.LogStatus
 import com.example.movieappmvvm.ui.loginAndRegister.viewModel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -31,7 +35,17 @@ class RegisterFragment : BaseFragment<RegisterViewModel,FragmentRegisterBinding>
             findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
         }
         initView()
+        initCollectFlow()
 
+    }
+
+    private fun initCollectFlow(): Unit = with(binding) {
+        collectFlow(viewModel.channelFlow) {
+            when(it) {
+                is AuthResult.SuccessResult -> findNavController().navigate(R.id.moviesFragment)
+                is AuthResult.ErrorResult -> LogStatus.Error()
+            }
+        }
     }
 
 
@@ -57,9 +71,9 @@ class RegisterFragment : BaseFragment<RegisterViewModel,FragmentRegisterBinding>
             val user = User(email = email , password = password , repeatPassword = repeatPassword)
             viewModel.register(user)
         }
-        collectFlow(viewModel.channelFlow) {
-            findNavController().navigate(R.id.homeFragment)
-        }
+//        collectFlow(viewModel.channelFlow) {
+//            findNavController().navigate(R.id.homeFragment)
+//        }
     }
 
 }

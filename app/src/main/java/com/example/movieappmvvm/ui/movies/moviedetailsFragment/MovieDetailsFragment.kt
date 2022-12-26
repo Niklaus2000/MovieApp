@@ -1,156 +1,112 @@
 package com.example.movieappmvvm.ui.movies.moviedetailsFragment
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.navigation.findNavController
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
+import coil.loadAny
 import com.example.movieappmvvm.R
-import com.example.movieappmvvm.data.model.Cast
-import com.example.movieappmvvm.data.model.Movie
-import com.example.movieappmvvm.data.model.Status
+import com.example.movieappmvvm.core.response.DetailsUIState
+import com.example.movieappmvvm.data.model.moviesUiModel.MoviesUIModel
 import com.example.movieappmvvm.databinding.FragmentMovieDetailsBinding
 import com.example.movieappmvvm.ui.base.BaseFragment
 import com.example.movieappmvvm.ui.movies.moviedetailsFragment.adapter.CastRecyclerViewAdapter
-import com.example.movieappmvvm.ui.movies.moviedetailsFragment.dialog.VideoPlayerDialog
 import com.example.movieappmvvm.utils.CONSTANTS
-import com.example.movieappmvvm.utils.showToast
 import com.example.movieappmvvm.utils.toHours
-import com.faltenreich.skeletonlayout.Skeleton
-import com.faltenreich.skeletonlayout.applySkeleton
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @ExperimentalStdlibApi
 @AndroidEntryPoint
 @ExperimentalCoroutinesApi
-class MovieDetailsFragment : BaseFragment<MovieDetailsViewModel,FragmentMovieDetailsBinding>(FragmentMovieDetailsBinding::inflate) , View.OnClickListener  {
+class MovieDetailsFragment :
+    BaseFragment<MovieDetailsViewModel , FragmentMovieDetailsBinding>(FragmentMovieDetailsBinding::inflate) {
 
-
-    private lateinit var movie: Movie
     override val viewModel: MovieDetailsViewModel by viewModels()
-
-    private var castList: ArrayList<Cast> = ArrayList()
     private lateinit var castRecyclerViewAdapter: CastRecyclerViewAdapter
-    private lateinit var castSkeleton: Skeleton
 
 
-    override fun onViewCreated(view: View , savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View , savedInstanceState: Bundle?): Unit = with(binding) {
         super.onViewCreated(view , savedInstanceState)
 
-
-
-        movie = requireArguments().get(CONSTANTS.movie) as Movie
-
+        buttonBack.setOnClickListener {
+            findNavController().navigateUp()
+        }
 
         initAdapters()
-        loadData()
-        loadCast()
+        val safeArgs = MovieDetailsFragmentArgs.fromBundle(requireArguments())
+        viewModel.getCast(movie_id = safeArgs.movieId)
 
 
-        viewModel.movieName.value = movie.title
-        viewModel.movie.value = movie
-        viewModel.getVideos(movie.id)
+        val safeArgsDetails = MovieDetailsFragmentArgs.fromBundle(requireArguments())
+        viewModel.getMoviesDetails(movie_id = safeArgsDetails.movieId)
 
 
 
-        binding.buttonBack.setOnClickListener(this)
-        binding.fabPlayButton.setOnClickListener(this)
-
-        viewModel.getMoviesDetails(movie.id)
-
-
-    }
-
-
-    private fun initAdapters() {
-        castRecyclerViewAdapter = CastRecyclerViewAdapter(requireContext() , castList)
-        binding.recyclerViewCast.adapter = castRecyclerViewAdapter
-        castSkeleton = binding.recyclerViewCast.applySkeleton(R.layout.item_cast , 10)
-
-    }
-
-    @SuppressLint("SetText")
-    private fun loadData() {
-
-        viewModel.movie.observe(requireActivity() , Observer {
-
-            var genre: String = ""
-            if (!it.genres.isNullOrEmpty())
-                for (i in 0..it.genres.size - 1) {
-                    genre += CONSTANTS.getGenreMap()[it.genres[i].id].toString()
-                    if (i != it.genres.size - 1) {
-                        genre += "• "
-                    }
-                }
-            binding.apply {
-                textMovieName.text = it!!.title
-                textRating.text = "${it.vote_average}/10"
-                textReleaseDate.text = it.release_date
-                textDescription.text = it.overview
-                if (it.runtime != null)
-                    textLength.text = toHours(it.runtime!!)
-                textGenres.text = genre
-
-                detailsBannerImage.load(CONSTANTS.ImageBaseURL + it.backdrop_path) {
-                    placeholder(CONSTANTS.viewPagerPlaceHolder.random())
-                    error(CONSTANTS.viewPagerPlaceHolder.random())
-                }
-                imagePoster.load(CONSTANTS.ImageBaseURL + it.poster_path) {
-                    placeholder(CONSTANTS.moviePlaceHolder.random())
-                    error(CONSTANTS.moviePlaceHolder.random())
-                }
-
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.listOfCast.collectLatest {
+                it.apply(binding , castRecyclerViewAdapter)
             }
-        })
 
-    }
-    private fun loadCast() {
-        viewModel.loadCast(movie.id).observe(requireActivity(), Observer {
-            when (it.status) {
-                Status.LOADING -> {
-                    if (castList.isNullOrEmpty())
-                        castSkeleton.showSkeleton()
-                }
-                Status.SUCCESS -> {
-                    castSkeleton.showOriginal()
-                    castList.clear()
-                    castList.addAll(it.data!!.cast)
-                    castRecyclerViewAdapter.notifyDataSetChanged()
-
-                    if (castList.isNullOrEmpty()) {
-                        binding.headingCast.visibility = View.GONE
-                    } else {
-                        binding.headingCast.visibility = View.VISIBLE
-                    }
-
-                }
-                Status.ERROR -> {
-                    showToast("Something went wrong!")
-                }
-            }
-        })
-    }
-
-    override fun onClick(v: View?) {
-
-        when (v!!.id) {
-            R.id.fabPlayButton -> {
-                if (viewModel.videos.value != null && viewModel.videos.value!!.results.size != 0) {
-                    val videoDialog = VideoPlayerDialog(viewModel.videos.value!!.results[0].key)
-                    videoDialog.show(childFragmentManager , "Video Dialog")
-                } else {
-                    showToast("Video not found!")
-                }
-            }
-            R.id.button_back -> {
-                binding.root.findNavController().navigateUp()
-            }
 
         }
 
+
+
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.moviesOfDetailsState.collectLatest {
+
+
+
+                when (it) {
+                    is DetailsUIState.Loading -> Toast.makeText(requireContext(),"Loading", Toast.LENGTH_SHORT).show()
+                    is DetailsUIState.Success -> binding.apply {
+                        var genre: String = ""
+                        if (!it.data.genres.isNullOrEmpty())
+                            for (i in 0..it.data.genres.size - 1) {
+                                genre += CONSTANTS.getGenreMap()[it.data.genres[i].id].toString()
+                                if (i != it.data.genres.size - 1) {
+                                    genre += "• "
+                                }
+                            }
+
+                        it.data.id
+                        imagePoster.load(CONSTANTS.ImageBaseURL + it.data.image)
+                        movieNameTextView.text = it.data.title
+                        ratingTextView.text = " ${it.data.vote_average}/10"
+                        if (it.data.runtime != null)
+                            textLength.text = toHours(it.data.runtime)
+                        dateTextView.text = it.data.release_date
+                        descriptionTextView.text = it.data.overview
+                        detailsBannerImage.load(CONSTANTS.ImageBaseURL + it.data.bannerImage)
+                        textGenres.text = genre
+
+
+                    }
+                    is  DetailsUIState.Error -> Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+
+        }
     }
+
+
+    private fun initAdapters(): Unit = with(binding) {
+        castRecyclerViewAdapter = CastRecyclerViewAdapter()
+        castRecyclerView.adapter = castRecyclerViewAdapter
+        castRecyclerView.layoutManager =
+            LinearLayoutManager(requireContext() , LinearLayoutManager.HORIZONTAL , false)
+    }
+
 }
+
 

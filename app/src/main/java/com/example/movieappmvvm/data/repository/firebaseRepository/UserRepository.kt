@@ -1,6 +1,6 @@
 package com.example.movieappmvvm.data.repository.firebaseRepository
 
-import com.example.movieappmvvm.core.AuthResult
+import com.example.movieappmvvm.core.response.AuthResult
 import com.example.movieappmvvm.ui.loginAndRegister.userData.User
 
 interface UserRepository {

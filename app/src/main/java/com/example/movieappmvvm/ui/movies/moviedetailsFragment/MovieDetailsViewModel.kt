@@ -1,60 +1,97 @@
 package com.example.movieappmvvm.ui.movies.moviedetailsFragment
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
-import com.example.movieappmvvm.data.model.Movie
-import com.example.movieappmvvm.data.model.Resource
-import com.example.movieappmvvm.data.model.VideoResponse
-import com.example.movieappmvvm.data.repository.NetworkRepository
+import com.example.movieappmvvm.core.Dispatchers
+import com.example.movieappmvvm.core.response.DetailsUIState
+import com.example.movieappmvvm.core.response.HandleResponse
+import com.example.movieappmvvm.data.model.moviesUiModel.CastUIModel
+import com.example.movieappmvvm.data.model.moviesUiModel.MoviesUIModel
+import com.example.movieappmvvm.data.repository.movieDetailsRepository.MovieDetailsRepository
+import com.example.movieappmvvm.ui.movies.moviesUi.CastUi
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import timber.log.Timber
-import java.net.SocketTimeoutException
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 
+
+@Suppress("IMPLICIT_CAST_TO_ANY")
 @HiltViewModel
-@ExperimentalStdlibApi
-class MovieDetailsViewModel @Inject constructor(private val networkRepository: NetworkRepository) :
-    ViewModel() {
+class MovieDetailsViewModel @Inject constructor(
+    private val dispatchers: Dispatchers ,
+    private val repository: MovieDetailsRepository ,
+) : ViewModel() {
 
 
-    private val _name = MutableLiveData("Movie Name")
-    private val _movie = MutableLiveData<Movie>()
-    private val _videos = MutableLiveData<VideoResponse>()
+//    private val _moviesOfDetailsState = MutableStateFlow<DetailsUIState>(DetailsUIState.Loading)
+//    val moviesOfDetailsState = _moviesOfDetailsState.asStateFlow()
 
-    var movieName: MutableLiveData<String> = _name
-    var movie: MutableLiveData<Movie> = _movie
-    var videos: MutableLiveData<VideoResponse> = _videos
+    private val _moviesOfDetailsState = MutableStateFlow<DetailsUIState>(DetailsUIState.Loading)
+    val moviesOfDetailsState = _moviesOfDetailsState.asStateFlow()
+
+
+
+//    private val _movie = MutableLiveData<Movie>()
+//    var movie : MutableLiveData<Movie> = _movie
+
+
+
+    private val _listOfCast = MutableStateFlow<CastUi>(CastUi.Empty)
+    val listOfCast = _listOfCast.asStateFlow()
+
+
+//    fun getMovieDetails(movie_id: Int) {
+//        dispatchers.launchBackground(viewModelScope) {
+//            val response = repository.getMoviesDetails(movie_id)
+//            movie.postValue(response.value)
+//        }
+//    }
+
 
     fun getMoviesDetails(movie_id: Int) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val apiResponse = networkRepository.getMovieDetails(movie_id)
-            movie.postValue(apiResponse)
+        dispatchers.launchBackground(viewModelScope) {
+            repository.getMoviesDetails(movie_id).collectLatest { it ->
+               val detailsData =  when (it) {
+                    is HandleResponse.Loading -> DetailsUIState.Loading
+                    is HandleResponse.Success -> DetailsUIState.Success(MoviesUIModel(
+                        it.data.id,
+                        it.data.poster_path,
+                        it.data.title,
+                        it.data.vote_average!!.toFloat(),
+                        it.data.release_date,
+                        it.data.runtime,
+                        it.data.genres!! ,
+                        it.data.overview,
+                        it.data.backdrop_path,
 
-        }
-    }
-    fun loadCast(movie_id: Int) = liveData(Dispatchers.IO) {
-        emit(Resource.loading())
-        try {
-            val apiResponse = networkRepository.getMovieCredits(movie_id)
-            emit(Resource.success(apiResponse))
-        } catch (e: Exception) {
-            if (e is SocketTimeoutException)
-                emit(Resource.error("Something went wrong!"))
-        }
-    }
-    fun getVideos(movie_id: Int) {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val apiResponse = networkRepository.getVideos(movie_id)
-                videos.postValue(apiResponse)
-            } catch (e: Exception) {
-                Timber.e(e)
+                    ))
+                    is HandleResponse.Error -> DetailsUIState.Error(it.message)
+                }
+                _moviesOfDetailsState.value = detailsData
+
             }
         }
-
     }
-}
+
+
+        fun getCast(movie_id: Int) {
+            dispatchers.launchBackground(viewModelScope) {
+                repository.loadCast(movie_id).collectLatest {
+                    val castData = when (it) {
+                        is HandleResponse.Loading -> CastUi.LoadingUi()
+                        is HandleResponse.Success -> CastUi.ContentUi(it.data.cast!!.map { it ->
+                            CastUIModel(
+                                it.id ,
+                                it.name ,
+                                it.profile_path ,
+                            )
+                        })
+                        is HandleResponse.Error -> CastUi.ErrorUi(it.message)
+                    }
+                    _listOfCast.value = castData
+                }
+            }
+        }
+    }
+
