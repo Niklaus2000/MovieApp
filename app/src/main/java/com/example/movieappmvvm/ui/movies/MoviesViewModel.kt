@@ -44,7 +44,7 @@ class MoviesViewModel @Inject constructor(
                         is HandleResponse.Loading -> MoviesUi.LoadingUi()
                         is HandleResponse.Success -> MoviesUi.ContentUi(it.data.results.map {
                             MoviesUIModel(
-                                it.id,
+                                it!!.id!! ,
                                 it.poster_path!!,
                                 it.title!!,
                                 it.vote_average!!.toFloat(),
@@ -52,7 +52,7 @@ class MoviesViewModel @Inject constructor(
                                 it.runtime,
                                 it.genres ,
                                 it.overview!!,
-                                it.backdrop_path!! ,
+                                it.backdrop_path ,
 
 
 
@@ -72,7 +72,7 @@ class MoviesViewModel @Inject constructor(
                     is HandleResponse.Loading -> MoviesUi.LoadingUi()
                     is HandleResponse.Success -> MoviesUi.ContentUi(it.data.results.map {
                         MoviesUIModel(
-                            it.id ,
+                            it!!.id!! ,
                             it.poster_path!!,
                             it.title!!,
                             it.vote_average!!.toFloat(),
@@ -97,7 +97,7 @@ class MoviesViewModel @Inject constructor(
                     is HandleResponse.Loading -> MoviesUi.LoadingUi()
                     is HandleResponse.Success -> MoviesUi.ContentUi(it.data.results.map {
                         MoviesUIModel(
-                            it.id ,
+                            it!!.id!!,
                             it.poster_path!!,
                             it.title!!,
                             it.vote_average!!.toFloat(),
@@ -121,7 +121,7 @@ class MoviesViewModel @Inject constructor(
                     is HandleResponse.Loading -> MoviesAllUi.LoadingUi()
                     is HandleResponse.Success -> MoviesAllUi.ContentUi(it.data.results.map {
                         MoviesUIModel(
-                            it.id ,
+                            it!!.id,
                             it.poster_path!!,
                             it.title!!,
                             it.vote_average!!.toFloat(),

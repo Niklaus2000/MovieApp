@@ -84,7 +84,7 @@ class SearchFragment :
                 viewModel.getSearch(binding.searchEditText.text.toString()).collect { it ->
                     searchAdapter.submitData(viewLifecycleOwner.lifecycle , it.map {
                         MoviesUIModel(
-                            it.id ,
+                            it.id!! ,
                             it.poster_path ,
                             it.title ,
                             it.vote_average!!.toFloat() ,

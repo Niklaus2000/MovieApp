@@ -77,7 +77,7 @@ class ViewAllFragment :
                     ).show()
                     is UiState.Success -> movieAdapter.submitData(it.data.map { it1 ->
                         MoviesUIModel(
-                            it1.id,
+                            it1.id!!,
                             it1.poster_path,
                             it1.title,
                             it1.vote_average!!.toFloat(),

@@ -16,23 +16,23 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 abstract class DataBaseModule {
 
-//
-//    companion object {
-//
-//        @Provides
-//        @Singleton
-//        fun provideArticleDatabase(@ApplicationContext context: Context): MovieDatabase {
-//            return Room.databaseBuilder(context , MovieDatabase::class.java , "movies_database")
-//                .allowMainThreadQueries()
-//                .fallbackToDestructiveMigration()
-//                .build()
-//        }
-//
-//
-//        @Provides
-//        @Singleton
-//        fun provideArticleDao(articleDatabase: MovieDatabase): MovieDao =
-//            articleDatabase.movieDao()
-//
-//    }
+
+    companion object {
+
+        @Provides
+        @Singleton
+        fun provideArticleDatabase(@ApplicationContext context: Context): MovieDatabase {
+            return Room.databaseBuilder(context , MovieDatabase::class.java , "movies_database")
+                .allowMainThreadQueries()
+                .fallbackToDestructiveMigration()
+                .build()
+        }
+
+
+        @Provides
+        @Singleton
+        fun provideArticleDao(articleDatabase: MovieDatabase): MovieDao =
+            articleDatabase.movieDao()
+
+    }
 }

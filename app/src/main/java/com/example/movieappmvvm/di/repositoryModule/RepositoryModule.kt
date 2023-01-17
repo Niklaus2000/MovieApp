@@ -2,6 +2,7 @@ package com.example.movieappmvvm.di.repositoryModule
 
 import com.example.movieappmvvm.core.HandleApiRequest
 import com.example.movieappmvvm.data.api.MoviesService
+import com.example.movieappmvvm.data.cache.MovieDao
 import com.example.movieappmvvm.data.repository.movieDetailsRepository.MovieDetailsRepository
 import com.example.movieappmvvm.data.repository.movieDetailsRepository.MovieDetailsRepositoryImpl
 import com.example.movieappmvvm.data.repository.moviesRepository.MoviesRepository
@@ -39,8 +40,9 @@ object RepositoryModule {
     @Provides
     fun provideMovieDetailsRepository(
         apiService: MoviesService,
-        handleApiRequest: HandleApiRequest
-    ): MovieDetailsRepository = MovieDetailsRepositoryImpl(handleApiRequest, apiService)
+        handleApiRequest: HandleApiRequest,
+        movieDao : MovieDao
+    ): MovieDetailsRepository = MovieDetailsRepositoryImpl(handleApiRequest, apiService, movieDao)
 
 }
 
