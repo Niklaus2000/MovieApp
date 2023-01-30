@@ -35,28 +35,36 @@ class MovieDetailsViewModel @Inject constructor(
     val moviesOfDetailsState = _moviesOfDetailsState.asStateFlow()
 
 
-    private val _movie = MutableLiveData<Movie>()
-    var movie: LiveData<Movie> = _movie
 
-    private val _bookMarkMovie = MutableLiveData(false)
-    val bookMarkMovie: LiveData<Boolean> = _bookMarkMovie
+
+
 
 
     private val _listOfCast = MutableStateFlow<CastUi>(CastUi.Empty)
     val listOfCast = _listOfCast.asStateFlow()
 
+    private val _movieBookMark = MutableLiveData(false)
+    val movieBookMark: LiveData<Boolean> = _movieBookMark
+
+
+
+
+
+
+
+
 
     fun bookmarkMovie() {
-        movie.value!!.run { val movieDb = MovieDB(
-                id,
-                poster_path!!,
-                overview!!,
-                title!!,
-                backdrop_path!!)
+        moviesOfDetailsState.value.let {
+            if(it !is  DetailsUIState.Success ) {
+                return@let
+            }
+            val movieDb = MovieDB(it.data.id, it.data.image!!, it.data.overview!!, it.data.title!!,it.data.bannerImage!!)
             viewModelScope.launch(kotlinx.coroutines.Dispatchers.IO) {
-                if (_bookMarkMovie.value == true) {
+                if (_movieBookMark.value == true) {
                     repository.removeMovie(movieDb)
-                } else {
+                }
+                else {
                     repository.insertMovie(movieDb)
                 }
             }
@@ -64,26 +72,13 @@ class MovieDetailsViewModel @Inject constructor(
         }
     }
 
-//    fun checkBookmarkExist() {
-//        dispatchers.launchBackground(viewModelScope){
-//            if(movie!= null) {
-//               return@launchBackground  _bookMarkMovie.postValue(repository.bookmarkExist(movie.value!!.id))
-//            }else {
-//               return@launchBackground
-//            }
-//
-//        }
-//    }
-
-    fun checkBookmarkExist() {
-        dispatchers.launchBackground(viewModelScope) {
-            val response = repository.
-            bookmarkExist(
-                movie.value!!.id
-            )
-            _bookMarkMovie.postValue(response)
+    fun checkBookmarkExist(movie_id: Int) {
+        viewModelScope.launch(kotlinx.coroutines.Dispatchers.IO) {
+            val response = repository.bookmarkExist(movie_id)
+            _movieBookMark.postValue(response)
         }
     }
+
 
 
     fun getMoviesDetails(movie_id: Int) {
@@ -91,21 +86,26 @@ class MovieDetailsViewModel @Inject constructor(
             repository.getMoviesDetails(movie_id).collectLatest { it ->
                 val detailsData = when (it) {
                     is HandleResponse.Loading -> DetailsUIState.Loading
-                    is HandleResponse.Success -> DetailsUIState.Success(MoviesUIModel(
-                        it.data.id ,
-                        it.data.poster_path ,
-                        it.data.title ,
-                        it.data.vote_average!!.toFloat() ,
-                        it.data.release_date ,
-                        it.data.runtime ,
-                        it.data.genres!! ,
-                        it.data.overview ,
-                        it.data.backdrop_path ,
+                    is HandleResponse.Success ->
+                        DetailsUIState.Success(MoviesUIModel(
+                            it.data.id ,
+                            it.data.poster_path ,
+                            it.data.title ,
+                            it.data.vote_average!!.toFloat() ,
+                            it.data.release_date ,
+                            it.data.runtime ,
+                            it.data.genres!! ,
+                            it.data.overview ,
+                            it.data.backdrop_path ,
 
-                        ))
+                            ))
+
+
                     is HandleResponse.Error -> DetailsUIState.Error(it.message)
                 }
+
                 _moviesOfDetailsState.value = detailsData
+                checkBookmarkExist(movie_id)
 
             }
         }

@@ -45,10 +45,11 @@ class MovieDetailsFragment :
 
         checkBookmark()
 
-
         buttonBookmark.setOnClickListener {
             viewModel.bookmarkMovie()
-            viewModel.checkBookmarkExist()
+            val safeArgsDetails = MovieDetailsFragmentArgs.fromBundle(requireArguments())
+            viewModel.checkBookmarkExist(movie_id = safeArgsDetails.movieId)
+
         }
 
 
@@ -75,8 +76,6 @@ class MovieDetailsFragment :
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.moviesOfDetailsState.collectLatest {
-
-
                 when (it) {
                     is DetailsUIState.Loading -> Toast.makeText(requireContext() ,
                         "Loading" ,
@@ -115,7 +114,7 @@ class MovieDetailsFragment :
     }
 
     private fun checkBookmark() {
-        viewModel.bookMarkMovie.observe(viewLifecycleOwner , Observer {
+        viewModel.movieBookMark.observe(viewLifecycleOwner , Observer {
             binding.apply {
                 if (it) {
                     buttonBookmark.setImageResource(R.drawable.ic_bookmark_done)
@@ -125,7 +124,7 @@ class MovieDetailsFragment :
             }
         })
 
-        viewModel.checkBookmarkExist()
+
 
     }
 
