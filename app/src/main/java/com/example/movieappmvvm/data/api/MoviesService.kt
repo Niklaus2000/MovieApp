@@ -42,7 +42,7 @@ interface MoviesService {
     ): Response<MovieResponse>
 
     @GET("movie/popular")
-     suspend fun getPopularMovies(
+    suspend fun getPopularMovies(
         @Query("api_key") apiKey: String = CONSTANTS.API_KEY ,
         @Query("page") page: Int  ,
     ): Response<MovieResponse>

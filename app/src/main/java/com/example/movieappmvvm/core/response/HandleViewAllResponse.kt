@@ -5,7 +5,7 @@ import com.example.movieappmvvm.data.model.Movie
 
 sealed class HandleViewAllResponse<T>(){
     class Loading<T>() : HandleViewAllResponse<T>()
-    class Success(val data: PagingData<Movie>): HandleViewAllResponse<PagingData<Movie>>()
+    class Success<T : Any>(val data: PagingData<T>): HandleViewAllResponse<PagingData<T>>()
     class Error<T>(val message: String): HandleViewAllResponse<T>()
 
 }

@@ -29,7 +29,5 @@ interface HandleApiRequest {
                 emit(HandleResponse.Error(provideResources.string(R.string.unexpected_error)))
             }
         }
-
-
     }
 }

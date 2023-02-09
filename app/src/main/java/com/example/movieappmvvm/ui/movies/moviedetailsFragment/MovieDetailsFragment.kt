@@ -52,8 +52,6 @@ class MovieDetailsFragment :
 
         }
 
-
-
         initAdapters()
         val safeArgs = MovieDetailsFragmentArgs.fromBundle(requireArguments())
         viewModel.getCast(movie_id = safeArgs.movieId)
@@ -68,8 +66,6 @@ class MovieDetailsFragment :
             viewModel.listOfCast.collectLatest {
                 it.apply(binding , castRecyclerViewAdapter)
             }
-
-
         }
 
 
@@ -123,9 +119,6 @@ class MovieDetailsFragment :
                 }
             }
         })
-
-
-
     }
 
 

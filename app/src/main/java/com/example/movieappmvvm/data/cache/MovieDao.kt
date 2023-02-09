@@ -1,5 +1,7 @@
 package com.example.movieappmvvm.data.cache
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.room.*
 import com.example.movieappmvvm.data.model.MovieDB
 import kotlinx.coroutines.flow.Flow
@@ -11,7 +13,7 @@ interface MovieDao {
      fun insertMovie(Movie: MovieDB)
 
      @Query("SELECT * FROM MovieDB")
-     fun getAllMovies(): List<MovieDB>
+     fun getAllMovies(): Flow<List<MovieDB>>
 
      @Delete
      fun removeMovie(movie: MovieDB)

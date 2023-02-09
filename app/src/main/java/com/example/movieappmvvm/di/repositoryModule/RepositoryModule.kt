@@ -3,6 +3,8 @@ package com.example.movieappmvvm.di.repositoryModule
 import com.example.movieappmvvm.core.HandleApiRequest
 import com.example.movieappmvvm.data.api.MoviesService
 import com.example.movieappmvvm.data.cache.MovieDao
+import com.example.movieappmvvm.data.repository.bookMarkRepository.MovieBookMarkRepository
+import com.example.movieappmvvm.data.repository.bookMarkRepository.MovieBookMarkRepositoryImpl
 import com.example.movieappmvvm.data.repository.movieDetailsRepository.MovieDetailsRepository
 import com.example.movieappmvvm.data.repository.movieDetailsRepository.MovieDetailsRepositoryImpl
 import com.example.movieappmvvm.data.repository.moviesRepository.MoviesRepository
@@ -44,37 +46,10 @@ object RepositoryModule {
         movieDao : MovieDao
     ): MovieDetailsRepository = MovieDetailsRepositoryImpl(handleApiRequest, apiService, movieDao)
 
+    @Provides
+    fun provideMovieBookMarkRepository(
+        movieDao: MovieDao
+    ): MovieBookMarkRepository = MovieBookMarkRepositoryImpl(movieDao)
+
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//@Module
-//@InstallIn(SingletonComponent::class)
-//abstract class RepositoryModule {
-//    @Binds
-//    abstract fun provideMoviesRepository(genresRepoImpl: GenresRepoImpl): GenresRepo
-//
-//    companion object {
-//        @Provides
-//        fun getGenresRepositoryImpl(moviesService: MoviesService, handleApiRequest: HandleApiRequest)  {
-//            return GenresRepoImpl(genresService)
-//        }
-//    }
-//}

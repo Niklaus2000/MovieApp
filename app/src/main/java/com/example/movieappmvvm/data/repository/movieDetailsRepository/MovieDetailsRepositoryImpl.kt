@@ -30,9 +30,7 @@ class MovieDetailsRepositoryImpl @Inject constructor(
         return movieDao.insertMovie(Movie)
     }
 
-    override suspend fun getAllMovie(): List<MovieDB> {
-        return movieDao.getAllMovies()
-    }
+
 
     override suspend fun removeMovie(movie: MovieDB) {
         return movieDao.removeMovie(movie)
@@ -42,9 +40,7 @@ class MovieDetailsRepositoryImpl @Inject constructor(
         return movieDao.bookmarkExist(id)
     }
 
-    override suspend fun searchMovie(query: String): Flow<List<MovieDB>> {
-        return searchMovie(query)
-    }
+
 }
 
 

@@ -24,8 +24,6 @@ class MoviesFragment :
     BaseFragment<MoviesViewModel , FragmentMoviesBinding>(FragmentMoviesBinding::inflate), OnItemClick<MoviesUIModel> {
     override val viewModel: MoviesViewModel by viewModels()
 
-    private lateinit var navController: NavController
-
 
     private lateinit var moviesPopularAdapter: HomeViewAdapter
     private lateinit var topRatedAdapter: HomeViewAdapter
@@ -37,6 +35,9 @@ class MoviesFragment :
 
         searchButton.setOnClickListener {
             findNavController().navigate(R.id.searchFragment)
+        }
+        bookMarkButton.setOnClickListener {
+            findNavController().navigate(R.id.bookMarkFragment)
         }
 
 

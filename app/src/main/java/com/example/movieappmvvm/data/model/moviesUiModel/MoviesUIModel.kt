@@ -27,14 +27,16 @@ data class MoviesUIModel(
         movieRatingTextView.text = vote_average.toString()
     }
     fun bindAllMovieItem(binding: ItemSearchBinding) = with(binding) {
-        searchImageView.load(CONSTANTS.ImageBaseURL + image)
+        imageView.load(CONSTANTS.ImageBaseURL + image)
     }
     fun bindNowPlayingItem(binding: ItemNowPlayingBinding) = with(binding ) {
         itemImageView.load(CONSTANTS.ImageBaseURL + image)
         itemTextView.text = title
     }
     fun bindSearchItem(binding: ItemSearchBinding) = with(binding) {
-        searchImageView.load(CONSTANTS.ImageBaseURL + image)
+        imageView.load(CONSTANTS.ImageBaseURL + image)
     }
+
+
 }
 

@@ -3,6 +3,9 @@ package com.example.movieappmvvm.data.model
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import coil.load
+import com.example.movieappmvvm.databinding.ItemSearchBinding
+import com.example.movieappmvvm.utils.CONSTANTS
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
@@ -15,6 +18,10 @@ data class MovieDB(
     val overview: String,
     val title: String,
     val backdrop_path: String
-): Parcelable
+): Parcelable {
+    fun bindBookMarkItem(binding: ItemSearchBinding) = with(binding) {
+        imageView.load(CONSTANTS.ImageBaseURL + poster_path)
+    }
+}
 
 
